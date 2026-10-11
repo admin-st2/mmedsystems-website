@@ -3,99 +3,73 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0a1c35">
-  <meta name="description" content="MMeD Systems is creating the next chapter of connected healthcare technology. Our new website is coming soon.">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="MMeD Systems is developing connected healthcare technology for clinical care, communication, and operations. Our new website is coming soon.">
   <title>Coming Soon | MMeD Systems</title>
   <style>
-    :root{color-scheme:dark;--navy:#0a1c35;--navy2:#122d4e;--sky:#6b829c;--ice:#9bc2ea;--cream:#fffaf0}
-    *{box-sizing:border-box}
-    html{min-height:100%;background:var(--navy)}
-    body{margin:0;min-height:100vh;min-height:100dvh;color:#fff;font-family:"Times New Roman",Times,serif;-webkit-font-smoothing:antialiased}
-    a{color:inherit}
-    a:focus-visible{outline:3px solid #a9d1fd;outline-offset:5px}
-    .shell{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:radial-gradient(circle at 14% 76%,#54627c 0%,transparent 37%),linear-gradient(115deg,#283e58 0%,#122a49 51%,#09192e 100%)}
-    .site-header{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:23px clamp(26px,5vw,80px);border-bottom:1px solid rgba(255,255,255,.15);background:rgba(6,19,37,.30)}
-    .brand{text-decoration:none;font-size:clamp(29px,2.5vw,36px);font-weight:700;letter-spacing:-.045em;white-space:nowrap}
-    .brand span{font-weight:400;color:#c3cddc;letter-spacing:-.04em}
-    .header-note{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#cbd6e2}
-    .hero{flex:1;display:grid;grid-template-columns:minmax(0,1.67fr) minmax(360px,.88fr);align-items:stretch;min-height:640px}
-    .flag-stage{position:relative;display:flex;align-items:center;justify-content:center;isolation:isolate;min-width:0;overflow:hidden;padding:45px 0 70px 24px}
-    .flag-stage:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 6% 47%,rgba(255,226,180,.82) 0%,rgba(240,177,125,.30) 18%,transparent 44%),linear-gradient(180deg,rgba(12,27,50,0) 55%,rgba(9,22,42,.60) 100%);pointer-events:none}
-    .flag-stage:after{content:"";position:absolute;bottom:0;left:0;right:0;height:9%;background:linear-gradient(180deg,transparent,#13243c);opacity:.7;pointer-events:none}
-    .flag-graphic{position:relative;z-index:1;display:block;width:min(100%,1030px);height:auto;overflow:visible;filter:drop-shadow(1px 17px 20px rgba(0,8,18,.28))}
-    .flag-sheet{transform-origin:10% 45%;animation:flag-breeze 9s ease-in-out infinite;filter:url(#fabric-ripple)}
-    .fold-light{animation:fold-glow 10s ease-in-out infinite}
-    .content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:clamp(50px,7vw,108px) clamp(32px,5.5vw,95px) 78px 40px;border-left:1px solid rgba(255,255,255,.11)}
-    .kicker{display:inline-flex;align-items:center;gap:14px;margin:0 0 38px;color:#b5cadf;font-size:12px;letter-spacing:.24em;text-transform:uppercase;font-weight:700}
-    .kicker:before{content:"";width:32px;height:1px;background:#a9d0f4}
-    .content h1{font-size:clamp(38px,4.2vw,61px);line-height:1.1;letter-spacing:-.025em;font-weight:700;margin:0;max-width:490px}
-    .accent-rule{height:2px;width:55px;background:#8fbce6;margin:34px 0 28px}
-    .intro{font-size:clamp(19px,1.6vw,23px);line-height:1.55;color:#dfebf5;max-width:410px;margin:0 0 35px}
-    .contact-card{border:1px solid rgba(216,229,244,.25);border-radius:10px;padding:27px 25px 24px;background:rgba(3,14,31,.22);max-width:430px}
-    .contact-card h2{font-size:20px;margin:0 0 10px;letter-spacing:.01em}
-    .contact-card p{font-size:17px;line-height:1.45;color:#c6d3e0;margin:0 0 21px}
-    .button{display:flex;align-items:center;justify-content:space-between;gap:22px;min-height:55px;padding:13px 20px;border-radius:6px;background:#95c0ef;color:#0a2340;text-decoration:none;font-size:18px;font-weight:700;transition:background .2s ease,transform .2s ease}
-    .button:hover{background:#b5d7fa;transform:translateY(-2px)}
-    .helper{font-size:14px;margin:15px 0 0;color:#c3d1de;line-height:1.5}
-    .site-footer{position:relative;z-index:3;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:25px clamp(26px,5vw,80px);border-top:1px solid rgba(255,255,255,.16);color:#c7d3e1;font-size:15px;background:rgba(6,19,37,.33)}
-    .site-footer a{text-underline-offset:4px}
-    .site-footer a:hover{color:#fff}
-    @keyframes flag-breeze{0%,100%{transform:translate3d(0,0,0) rotate(-.25deg) skewY(-.15deg)}50%{transform:translate3d(3px,-4px,0) rotate(.20deg) skewY(.12deg)}}
-    @keyframes fold-glow{0%,100%{opacity:.30}50%{opacity:.55}}
-    @media(max-width:950px){.hero{grid-template-columns:1fr;min-height:0}.flag-stage{padding:35px 14px 0;min-height:440px}.flag-graphic{max-width:760px}.content{border-left:none;border-top:1px solid rgba(255,255,255,.1);padding:45px max(26px,6vw) 65px}.content h1,.intro{max-width:750px}.contact-card{max-width:520px}.header-note{font-size:11px}}
-    @media(max-width:600px){.site-header{padding-top:20px;padding-bottom:20px}.brand{font-size:28px}.header-note{font-size:10px;line-height:1.5;max-width:138px;text-align:right}.flag-stage{min-height:300px;padding:17px 0 3px}.flag-graphic{width:110%;max-width:none}.content{padding-top:36px}.kicker{margin-bottom:25px}.content h1{font-size:clamp(36px,9vw,50px)}.accent-rule{margin:24px 0}.intro{font-size:19px}.contact-card{padding:22px 20px}.site-footer{font-size:13px}}
-    @media(prefers-reduced-motion:reduce){.flag-sheet{animation:none!important;filter:none!important}.fold-light{animation:none!important}.button{transition:none}}
+    :root { color-scheme: light; --navy: #0b1f3a; --blue: #1267b2; --muted: #526075; --line: #e5eaf0; }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { min-height: 100%; background: #fff; }
+    body { margin: 0; min-height: 100vh; min-height: 100dvh; background: #fff; color: var(--navy); font-family: "Times New Roman", Times, serif; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; }
+    .shell { max-width: 1240px; min-height: 100vh; min-height: 100dvh; padding: 0 clamp(24px, 6vw, 90px); margin: auto; display: flex; flex-direction: column; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 44px 0 28px; border-bottom: 1px solid var(--line); gap: 24px; }
+    .brand { text-decoration: none; display: inline-flex; flex-direction: column; align-items: flex-start; line-height: .92; letter-spacing: -.045em; font-weight: 700; font-size: clamp(33px, 3.3vw, 43px); }
+    .brand small { font-size: 11px; font-weight: 700; letter-spacing: .42em; margin-left: 2px; margin-top: 9px; }
+    .header-note { font-size: 14px; color: var(--muted); letter-spacing: .04em; text-align: right; }
+    main { flex: 1; display: grid; align-items: center; padding: clamp(80px, 13vh, 170px) 0; }
+    .hero { max-width: 860px; }
+    .eyebrow { display: flex; align-items: center; gap: 14px; margin: 0 0 32px; font-size: 13px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--blue); }
+    .eyebrow::before { content: ""; display: block; width: 32px; height: 2px; background: var(--blue); flex-shrink: 0; }
+    h1 { font-size: clamp(51px, 7.1vw, 99px); font-weight: 700; letter-spacing: -.055em; line-height: 1.03; margin: 0; max-width: 850px; }
+    h1 em { font-style: normal; color: var(--blue); }
+    .tagline { font-size: clamp(23px, 2.5vw, 31px); line-height: 1.24; font-weight: 700; margin: 39px 0 0; }
+    .description { max-width: 600px; color: var(--muted); font-size: clamp(18px, 1.75vw, 22px); line-height: 1.55; margin: 14px 0 0; }
+    .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 24px; margin-top: 43px; }
+    .button { display: inline-flex; justify-content: center; align-items: center; gap: 25px; background: var(--navy); color: #fff; text-decoration: none; border: 2px solid var(--navy); border-radius: 4px; font-weight: 700; font-size: 19px; padding: 17px 24px; transition: background-color .2s ease, transform .2s ease; }
+    .button:hover { background: #15375c; transform: translateY(-2px); }
+    .button:focus-visible, a:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+    .contact-hint { color: var(--muted); font-size: 17px; }
+    footer { padding: 26px 0 35px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; color: var(--muted); font-size: 15px; }
+    footer a { text-underline-offset: 4px; text-decoration-color: #b0bfce; }
+    footer a:hover { color: var(--blue); }
+    @media (max-width: 600px) {
+      header { padding-top: 27px; }
+      .header-note { font-size: 12px; max-width: 140px; }
+      main { padding: 82px 0 110px; }
+      .eyebrow { font-size: 11px; gap: 10px; letter-spacing: .16em; margin-bottom: 25px; }
+      .eyebrow::before { width: 22px; }
+      h1 { font-size: clamp(48px, 12.5vw, 67px); }
+      .tagline { margin-top: 29px; }
+      .actions { align-items: flex-start; flex-direction: column; gap: 17px; margin-top: 34px; }
+      .button { width: 100%; max-width: 300px; }
+      footer { font-size: 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .button { transition: none; } }
   </style>
 </head>
 <body>
   <div class="shell">
-    <header class="site-header"><a class="brand" href="/" aria-label="MMeD Systems home">MMeD <span>Systems</span></a><span class="header-note">Healthcare technology<br>in development</span></header>
-    <main class="hero">
-      <section class="flag-stage" aria-label="Coming soon">
-        <svg class="flag-graphic" viewBox="0 0 1100 760" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A white and navy fabric flag reading MMeD Systems, Coming Soon, gently waving in a light breeze">
-          <defs>
-            <linearGradient id="fabric" x1="0" y1="0" x2="1" y2=".75"><stop stop-color="#f8e8d8"/><stop offset=".22" stop-color="#fdf9f3"/><stop offset=".48" stop-color="#e3e4e4"/><stop offset=".70" stop-color="#fffdf5"/><stop offset="1" stop-color="#9cbedb"/></linearGradient>
-            <linearGradient id="blue-panel" x1=".10" y1=".1" x2=".9" y2=".85"><stop stop-color="#164376"/><stop offset=".54" stop-color="#092449"/><stop offset="1" stop-color="#4179b4"/></linearGradient>
-            <linearGradient id="crease" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#677791" stop-opacity=".23"/><stop offset=".28" stop-color="#fff" stop-opacity=".04"/><stop offset=".52" stop-color="#fff" stop-opacity=".40"/><stop offset=".75" stop-color="#8797a8" stop-opacity=".15"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-            <clipPath id="flag-boundary"><path d="M52 70 C245 29 354 125 565 113 C790 96 860 169 1031 129 C1053 246 1019 347 1050 461 C1075 566 1083 646 1048 674 C830 614 709 597 525 641 C342 690 194 599 65 663 C80 488 38 303 52 70 Z"/></clipPath>
-            <filter id="fabric-ripple" x="-4%" y="-6%" width="108%" height="112%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.005 0.016" numOctaves="1" seed="9" result="noise"><animate attributeName="baseFrequency" values="0.005 0.016;0.0058 0.018;0.005 0.016" dur="9s" repeatCount="indefinite"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G"><animate attributeName="scale" values="8;14;8" dur="9s" repeatCount="indefinite"/></feDisplacementMap></filter>
-          </defs>
-          <g class="flag-sheet">
-            <path d="M52 70 C245 29 354 125 565 113 C790 96 860 169 1031 129 C1053 246 1019 347 1050 461 C1075 566 1083 646 1048 674 C830 614 709 597 525 641 C342 690 194 599 65 663 C80 488 38 303 52 70 Z" fill="url(#fabric)" stroke="#d2d5d9" stroke-width="3"/>
-            <g clip-path="url(#flag-boundary)">
-              <path d="M710 40 C750 175 852 239 1064 222 L1100 30 Z" fill="url(#blue-panel)" opacity=".89"/>
-              <path d="M844 425 C917 464 1021 469 1120 402 L1115 729 L812 719 C852 635 831 522 844 425 Z" fill="url(#blue-panel)"/>
-              <path d="M10 580 C86 557 121 569 190 622 L222 714 L5 720 Z" fill="#1a426e" opacity=".88"/>
-              <path d="M70 71 C139 196 119 333 151 484 C164 548 202 619 254 669" fill="none" stroke="#ffffff" stroke-opacity=".53" stroke-width="12"/>
-              <path d="M285 92 C417 136 500 150 628 133 C770 114 925 157 1047 134" fill="none" stroke="#5d7da4" stroke-width="3" stroke-opacity=".14"/>
-              <path d="M195 579 C446 595 603 560 767 543 C898 529 989 563 1099 605" fill="none" stroke="#ffffff" stroke-opacity=".35" stroke-width="15"/>
-              <path class="fold-light" d="M92 38 C242 250 232 395 272 719 L365 718 C302 442 341 297 271 56 Z" fill="url(#crease)"/>
-              <path class="fold-light" d="M613 41 C660 209 609 404 709 708 L794 709 C740 428 794 230 740 42 Z" fill="url(#crease)"/>
-              <path d="M150 187 C330 227 648 216 873 220" fill="none" stroke="#bcc1ca" stroke-opacity=".28" stroke-width="2"/>
-              <text x="176" y="221" fill="#12294a" font-family="Times New Roman, Times, serif" font-size="33" font-weight="700" letter-spacing="1">MMeD <tspan font-weight="400" font-size="27">SYSTEMS</tspan></text>
-              <text x="170" y="373" fill="#102542" font-family="Times New Roman, Times, serif" font-size="125" letter-spacing="-5">COMING</text>
-              <text x="169" y="503" fill="#285b98" font-family="Times New Roman, Times, serif" font-size="140" letter-spacing="-6">SOON</text>
-              <path d="M178 548 L236 548" stroke="#203d65" stroke-width="3"/>
-              <text x="176" y="591" fill="#173054" font-family="Times New Roman, Times, serif" font-size="19" letter-spacing="6">CONNECTED INFORMATION.</text>
-              <text x="176" y="621" fill="#173054" font-family="Times New Roman, Times, serif" font-size="19" letter-spacing="6">COORDINATED CARE.</text>
-            </g>
-          </g>
-        </svg>
-      </section>
-      <section class="content" aria-labelledby="headline">
-        <p class="kicker">Something meaningful is taking shape</p>
-        <h1 id="headline">A more connected future for healthcare.</h1>
-        <div class="accent-rule" aria-hidden="true"></div>
-        <p class="intro">MMeD Systems is building technology to connect clinical care, communication, and healthcare operations in one coordinated experience.</p>
-        <div class="contact-card">
-          <h2>Stay in the loop</h2>
-          <p>Interested in our launch or exploring a partnership? Reach out to our team.</p>
-          <a class="button" href="mailto:info@mmedsystems.com?subject=MMeD%20Systems%20Launch%20Updates">Ask for launch updates <span aria-hidden="true">↗</span></a>
-          <p class="helper">Opens your email app. No mailing-list signup is required.</p>
+    <header>
+      <a class="brand" href="/" aria-label="MMeD Systems home">MMeD<small>SYSTEMS</small></a>
+      <span class="header-note">Healthcare technology<br>in development</span>
+    </header>
+    <main>
+      <section class="hero" aria-labelledby="heading">
+        <p class="eyebrow">Coming soon</p>
+        <h1 id="heading">A more connected future for <em>healthcare.</em></h1>
+        <p class="tagline">Connected information. Coordinated care.</p>
+        <p class="description">We're building MMeD Systems, a healthcare technology platform designed to bring clinical care, communication, and business operations together.</p>
+        <div class="actions">
+          <a class="button" href="mailto:info@mmedsystems.com?subject=MMeD%20Systems%20Inquiry">Get in touch <span aria-hidden="true">↗</span></a>
+          <span class="contact-hint">Interested in collaborating? We'd love to hear from you.</span>
         </div>
       </section>
     </main>
-    <footer class="site-footer"><span>© 2026 MMeD Systems. All rights reserved.</span><a href="mailto:partnerships@mmedsystems.com?subject=MMeD%20Systems%20Partnership%20Inquiry">Partnership inquiries ↗</a></footer>
+    <footer>
+      <span>© 2026 MMeD Systems. All rights reserved.</span>
+      <a href="mailto:partnerships@mmedsystems.com?subject=MMeD%20Systems%20Partnership">Partnerships &amp; inquiries ↗</a>
+    </footer>
   </div>
 </body>
 </html>
