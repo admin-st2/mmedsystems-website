@@ -69,3 +69,11 @@ The following items are historical configuration and remaining verification chec
 Useful docs:
 - GitHub Pages custom domains: https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site
 - Google Search sitemap guidance: https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview
+
+## Google indexing progress — 2026-10-12
+- Google Search Console URL Inspection now reports `https://mmedsystems.com/` **PASS — Submitted and indexed**; Googlebot fetched successfully (MOBILE), robots crawling/indexing allowed, Google-selected and declared canonical both `https://mmedsystems.com/`, last crawl `2026-10-12T02:48:41Z`. This supersedes the earlier “URL unknown to Google” inspection from the same date.
+- The owner's Search Console screenshot independently displays “URL is on Google”, “Page is indexed” and “Page is served over HTTPS”.
+- Additional URL inspections: `/platform/`, `/private-clinics/`, `/medical-centers/`, and `/hospitals/` returned **URL is unknown to Google** (no crawl time yet). They were previously accessible via HTTP 200 in an independent crawler; discovery/indexing should be monitored rather than treating these as technical failures.
+- The sitemap remains **pending** in Google's Sitemaps API even though an independent crawler successfully fetched all 25 URLs. Avoid repeated submissions while Google is processing.
+- SEO changes on PR #1 remain **unmerged** pending owner approval; completing Search Console verification does not authorize deployment.
+
