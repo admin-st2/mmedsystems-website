@@ -11,8 +11,10 @@ Snapshot: 2026-10-11. Canonical site: https://mmedsystems.com/. Repository: admi
 - Public site pages already use self-referencing canonical tags. Old `.html` aliases are tagged noindex and point to clean paths.
 - `/prototype/index.html` has noindex metadata and is not in the sitemap. It is **not** protected by authentication; do not use real patient data.
 
-## DNS, HTTPS and GitHub Pages — blocking external checks
-These were **not** independently confirmed via the public site as of the snapshot. Do not treat a successful Pages workflow as proof the custom hostname works.
+## DNS and HTTPS status — owner confirmation and remaining browser checks
+**Owner-confirmed on 2026-10-11:** GitHub Pages reports DNS check successful, and **Enforce HTTPS** has passed / been enabled. Treat these GitHub Pages settings as user-confirmed. Public HTTP/TLS checks were attempted but could not be completed from this execution environment due to host access / DNS resolution limits; this is not evidence of a site outage.
+
+The following items are historical configuration and remaining verification checks. Do not confuse site accessibility with a successful GitHub Pages workflow.
 
 1. At the DNS provider, confirm apex (`@`) A records match **all four** GitHub Pages addresses:
    - `185.199.108.153`
@@ -20,7 +22,7 @@ These were **not** independently confirmed via the public site as of the snapsho
    - `185.199.110.153`
    - `185.199.111.153`
 2. Confirm `www` CNAME points to `admin-st2.github.io`. Remove conflicting parking/forwarding records; preserve email MX, SPF, DKIM and DMARC records.
-3. In GitHub repository Settings → Pages, confirm custom domain `mmedsystems.com`, successful DNS check, certificate issuance and selected **Enforce HTTPS** option. GitHub notes HTTPS availability can take up to 24 hours.
+3. **Owner-confirmed complete:** In GitHub repository Settings → Pages, the custom-domain DNS check passed and **Enforce HTTPS** is enabled. Certificate trust and real-browser HTTPS behavior still require an independent smoke test.
 4. Verify `https://mmedsystems.com/` loads and presents a trusted certificate. Verify `http://mmedsystems.com/`, `https://www.mmedsystems.com/` and `http://www.mmedsystems.com/` redirect to the canonical HTTPS site as expected.
 5. Fetch `https://mmedsystems.com/robots.txt`, `/sitemap.xml`, `/platform/`, `/private-clinics/`, and `/request-demo/` and confirm correct content, no TLS warnings and HTTP 200 for canonical URLs.
 
@@ -31,7 +33,7 @@ These were **not** independently confirmed via the public site as of the snapsho
 - Homepage lead copy explicitly references configurable EMR and healthcare management systems while preserving existing design and existing single main call to action.
 - Existing Organization/WebSite structured data on the homepage is preserved.
 
-## After HTTPS and release acceptance
+## After live browser smoke test and release acceptance
 - Validate the final served HTML titles, meta descriptions, canonical URLs and JSON-LD on desktop and mobile.
 - Verify domain ownership in Google Search Console (domain property recommended) and submit `https://mmedsystems.com/sitemap.xml`. Use URL Inspection for key pages.
 - Set up Bing Webmaster Tools and submit the sitemap.
