@@ -33,6 +33,14 @@ The following items are historical configuration and remaining verification chec
 - Homepage lead copy explicitly references configurable EMR and healthcare management systems while preserving existing design and existing single main call to action.
 - Existing Organization/WebSite structured data on the homepage is preserved.
 
+## Google Search Console connection — check on 2026-10-11
+- GSC Wizard plugin connected successfully, but `list_sites` returned **no registered properties** for the authenticated Google account.
+- Attempt to register `sc-domain:mmedsystems.com` through GSC Wizard returned **site not found** in the connected Google Search Console account. This does not establish whether another Google account has a verified property.
+- **Next owner action**: in https://search.google.com/search-console/, select **Add property → Domain**, enter `mmedsystems.com`, obtain the unique Google-issued TXT verification value, add it as an `@` TXT record in the DNS host, preserving existing MX/SPF/DKIM/DMARC and GitHub Pages records. Return to Google to click Verify. Do **not** guess or synthesize the token.
+- After successful verification, retry GSC Wizard `add_site` for `sc-domain:mmedsystems.com`, activate property if needed, then submit `https://mmedsystems.com/sitemap.xml` and inspect key pages.
+- Bing Webmaster Tools connection through GSC Wizard is not configured; Bing setup remains separate. Google sitemap submission and indexing are **not yet complete**.
+- Attempts to independently fetch the public hostname and sitemap via web browsing were not successful in this environment, so real-browser/TLS smoke tests remain pending. This does **not** override the owner's report that GitHub Pages DNS and HTTPS checks passed.
+
 ## After live browser smoke test and release acceptance
 - Validate the final served HTML titles, meta descriptions, canonical URLs and JSON-LD on desktop and mobile.
 - Verify domain ownership in Google Search Console (domain property recommended) and submit `https://mmedsystems.com/sitemap.xml`. Use URL Inspection for key pages.
