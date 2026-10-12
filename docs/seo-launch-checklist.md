@@ -41,6 +41,14 @@ The following items are historical configuration and remaining verification chec
 - Bing Webmaster Tools connection through GSC Wizard is not configured; Bing setup remains separate. Google sitemap submission and indexing are **not yet complete**.
 - Attempts to independently fetch the public hostname and sitemap via web browsing were not successful in this environment, so real-browser/TLS smoke tests remain pending. This does **not** override the owner's report that GitHub Pages DNS and HTTPS checks passed.
 
+## Search Console verified and first indexing inspection — 2026-10-12
+- Domain property `sc-domain:mmedsystems.com` is now registered in GSC Wizard with `siteOwner` permission and activated.
+- Google Search Console's URL Inspection API returned **URL is unknown to Google** for `https://mmedsystems.com/` (verdict NEUTRAL; no crawl date or Google canonical yet). This does not imply a crawling error: Google may not have discovered a new site.
+- Search Console returned zero registered sitemaps for this property.
+- An attempted submission of `https://mmedsystems.com/sitemap.xml` was **refused by GSC Wizard** because the Google OAuth connection currently grants read-only API scope (`webmasters.readonly`); ownership does not automatically grant the connector full OAuth scope. No submission occurred. To resolve: manually submit through Search Console → Sitemaps, or enable full GSC Wizard access at https://tool.gscwizard.com/account and retry.
+- Search Console's AMP report shows **Processing data, please check again in a day or so**. It does not list an actual invalid AMP URL yet. The normal responsive MMEd site does not require AMP.
+- Public HTTP access remains unverified from this execution environment; the owner's GitHub Pages DNS and HTTPS success remains noted above.
+
 ## After live browser smoke test and release acceptance
 - Validate the final served HTML titles, meta descriptions, canonical URLs and JSON-LD on desktop and mobile.
 - Verify domain ownership in Google Search Console (domain property recommended) and submit `https://mmedsystems.com/sitemap.xml`. Use URL Inspection for key pages.
