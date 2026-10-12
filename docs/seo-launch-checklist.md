@@ -49,6 +49,13 @@ The following items are historical configuration and remaining verification chec
 - Search Console's AMP report shows **Processing data, please check again in a day or so**. It does not list an actual invalid AMP URL yet. The normal responsive MMEd site does not require AMP.
 - Public HTTP access remains unverified from this execution environment; the owner's GitHub Pages DNS and HTTPS success remains noted above.
 
+## Sitemap readback and Google "Couldn't fetch" display — 2026-10-12
+- Search Console accepted `https://mmedsystems.com/sitemap.xml` and shows **Couldn't fetch** / **Unknown** / **0 discovered pages** immediately after submission; GSC Wizard's sitemap API reports the entry **pending** with zero warnings and errors.
+- GSC Wizard independently downloaded and parsed the **live sitemap** (not only repository content) and found **25 URL entries**. This establishes the XML and address work from that crawler; Googlebot fetch status remains unverified.
+- The GSC Wizard live on-page audit requested the canonical HTTPS homepage, `/platform/`, and `/private-clinics/`: all responded HTTP **200**, were marked indexable, and had correct self-referencing canonical URLs on production. SEO PR metadata/schema is **not** merged; the audit observed main branch's older metadata.
+- Avoid changing or re-submitting the sitemap repeatedly while the fresh Google submission is pending. Recheck the row and error details after 24–48 hours. Google's Search Console Sitemaps report guidance advises live URL inspection to test Googlebot's fetch if errors persist.
+- Keep deployment gated behind owner approval; unrelated sitemap display issue does not prove a production code defect.
+
 ## After live browser smoke test and release acceptance
 - Validate the final served HTML titles, meta descriptions, canonical URLs and JSON-LD on desktop and mobile.
 - Verify domain ownership in Google Search Console (domain property recommended) and submit `https://mmedsystems.com/sitemap.xml`. Use URL Inspection for key pages.
