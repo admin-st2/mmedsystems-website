@@ -1,0 +1,36 @@
+# Defensive defaults for MMEd Systems public website.
+# Ignore common confidential files. These patterns do not remove files
+# already committed or replace a GitHub security scan.
+
+# Local environments and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.pfx
+*.key
+*.asc
+*.keystore
+credentials.json
+service-account*.json
+
+# Local exports, backups, and databases
+*.sqlite
+*.sqlite3
+*.db
+*.bak
+*.backup
+*.dump
+*.sql.gz
+*.log
+*.csv.bak
+
+# Local development and OS artifacts
+.DS_Store
+Thumbs.db
+node_modules/
+.venv/
+__pycache__/
+coverage/
+dist/
