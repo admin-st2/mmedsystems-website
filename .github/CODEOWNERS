@@ -1,0 +1,4 @@
+# Proposed reviewer ownership for website source.
+# This file does not itself require reviews; a GitHub branch ruleset must
+# separately enable pull-request reviews and CODEOWNERS review enforcement.
+* @admin-st2
