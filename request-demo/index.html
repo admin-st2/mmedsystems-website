@@ -43,6 +43,60 @@
   <article class="solution-workflow"><h3>Identify your priorities</h3><p>We can discuss electronic medical records, care-team coordination, pharmacy and laboratory workflows, billing, reporting, and the systems your team already uses.</p></article>
   <article class="solution-workflow"><h3>Arrange a private walkthrough</h3><p>Our team will discuss demonstration availability and next steps. Clinical demonstration access is managed separately, granted only to approved invitees, and subject to an NDA; it is not accessible from this public website.</p></article>
 </section>
+<section class="lead-capture container" id="lead-capture" aria-labelledby="lead-form-heading" hidden>
+  <div class="lead-intake-head">
+    <p class="kicker">SECURE BUSINESS INQUIRY</p>
+    <h2 id="lead-form-heading">Tell us about your organization.</h2>
+    <p>Use this form for professional contact information and broad operational needs only. Do not include patient information, medical records, or other sensitive clinical details.</p>
+  </div>
+  <form id="lead-intake-form" class="lead-intake-form" method="post">
+    <div class="lead-form-grid">
+      <label>Full name <input name="full_name" autocomplete="name" required minlength="2" maxlength="120"></label>
+      <label>Work email <input name="work_email" type="email" autocomplete="email" required maxlength="254"></label>
+      <label>Organization <input name="organization" autocomplete="organization" required minlength="2" maxlength="160"></label>
+      <label>Your role <input name="job_title" autocomplete="organization-title" required minlength="2" maxlength="100"></label>
+      <label>Country / region <input name="country" autocomplete="country-name" required minlength="2" maxlength="90"></label>
+      <label>Time zone <input name="time_zone" placeholder="e.g., Eastern Time, EAT, AST" required maxlength="80"></label>
+      <label>Facility type
+        <select name="facility_type" required><option value="">Select facility type</option>
+          <option value="private_clinic">Private clinic</option>
+          <option value="medical_center">Medical center</option>
+          <option value="hospital">Hospital</option>
+          <option value="care_network">Care network</option>
+          <option value="healthcare_operator">Healthcare operator</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+      <label>Number of locations <input name="locations" placeholder="e.g., 1, 2–5, 10+" required maxlength="50"></label>
+      <label>Implementation timeline
+        <select name="timeline" required><option value="">Select a timeline</option>
+          <option value="exploring">Exploring options</option>
+          <option value="within_3_months">Within three months</option>
+          <option value="three_to_twelve_months">Three to twelve months</option>
+          <option value="later">Longer-term planning</option>
+        </select>
+      </label>
+    </div>
+    <fieldset class="lead-interests"><legend>Areas of interest (choose those relevant)</legend>
+      <label><input type="checkbox" name="interests" value="clinical_emr"> Clinical records and documentation</label>
+      <label><input type="checkbox" name="interests" value="billing"> Billing and financial operations</label>
+      <label><input type="checkbox" name="interests" value="pharmacy"> Pharmacy</label>
+      <label><input type="checkbox" name="interests" value="laboratory"> Laboratory</label>
+      <label><input type="checkbox" name="interests" value="integrations"> Integrations</label>
+      <label><input type="checkbox" name="interests" value="operations"> Procurement and operations</label>
+      <label><input type="checkbox" name="interests" value="care_coordination"> Care coordination</label>
+    </fieldset>
+    <label class="lead-message">Broad needs or goals (no patient information)
+      <textarea name="message" rows="4" maxlength="1000" placeholder="Tell us which workflows you want to improve."></textarea>
+    </label>
+    <div class="lead-honeypot" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
+    <label class="lead-confirm"><input type="checkbox" name="privacy_notice_accepted" required> I have read the <a href="/privacy/">privacy policy</a> and agree to be contacted about this inquiry.</label>
+    <label class="lead-confirm"><input type="checkbox" name="no_phi_confirmed" required> I confirm this inquiry does not contain patient or sensitive clinical information.</label>
+    <div id="lead-turnstile" class="lead-turnstile"></div>
+    <button type="submit" class="lead-submit" id="lead-intake-submit">Send secure inquiry <span aria-hidden="true">↗</span></button>
+    <p class="lead-status" id="lead-intake-status" role="status" aria-live="polite"></p>
+  </form>
+</section>
 <section class="demo-request container" aria-labelledby="demo-contact-heading">
   <div class="demo-request-inner">
     <div class="demo-request-copy"><p class="kicker">START THE CONVERSATION</p><h2 id="demo-contact-heading">Tell us what you need.</h2><p>Start with your organization details, region and time zone, main workflow challenges, and preferred meeting times. We will review the request and discuss suitable next steps.</p></div>
@@ -59,5 +113,7 @@
 <div class="container footer-bottom"><span>© 2026 MMeD Systems. All rights reserved.</span><nav aria-label="Legal links"><a href="/privacy/">Privacy Policy</a><a href="/terms/">Terms of Service</a><a href="/accessibility/">Accessibility</a></nav></div>
 </footer>
 <script src="/mmed-v6.js?v=1" defer></script>
+<script src="/website-leads-config.js" defer></script>
+<script src="/website-leads.js" defer></script>
 </body>
 </html>
