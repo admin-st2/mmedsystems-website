@@ -11,6 +11,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urljoin, urlparse
 import sys
+import re
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -92,6 +93,14 @@ def check_link(href: str, page_url: str, source: str) -> None:
 
 def main() -> int:
     check((ROOT / "CNAME").read_text(encoding="utf-8").strip() == HOST, "CNAME differs from canonical host")
+    # IndexNow uses a deliberately public root-level key file. Validate its filename
+    # and payload without printing the key or contacting any private service.
+    indexnow_files = [p for p in ROOT.glob("*.txt")
+                      if re.fullmatch(r"[a-zA-Z0-9-]{8,128}\\.txt", p.name)]
+    check(len(indexnow_files) == 1, "expected one public IndexNow verification file")
+    for file in indexnow_files:
+        check(file.read_text(encoding="utf-8").strip() == file.stem,
+              "IndexNow verification content differs from its filename")
     robots = (ROOT / "robots.txt").read_text(encoding="utf-8")
     check("Sitemap: https://mmedsystems.com/sitemap.xml" in robots, "robots.txt sitemap directive missing")
     check("Disallow: /" not in robots, "robots.txt blocks the entire website")
