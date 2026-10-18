@@ -439,3 +439,26 @@ a.primary-cta:hover .external-arrow,a.primary-cta:focus-visible .external-arrow{
 .contact-route .solution-inline-cta{display:inline-flex;align-items:center;gap:16px;margin-top:12px}
 .contact-privacy-note{font-size:15px;line-height:1.6;color:#60748a;margin:25px 0 65px;max-width:800px}
 @media(max-width:780px){.contact-route{grid-template-columns:minmax(0,1fr);gap:18px;padding:28px 0 32px}.contact-route h3{font-size:32px;margin-bottom:9px}.contact-route p{font-size:17px}.contact-route .solution-inline-cta{margin-top:5px}}
+
+/* Search discovery and demonstration requests: editorial, accessible and responsive. */
+.platform-context,.solution-related{max-width:960px;margin:39px 0 0;font-size:18px;line-height:1.6;color:var(--body)}
+.platform-context a,.solution-related a,.demo-request-privacy a,.demo-request-action p a{color:var(--blue-deep);text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.platform-context a:hover,.solution-related a:hover,.demo-request-privacy a:hover,.demo-request-action p a:hover{color:var(--navy)}
+.solution-related{padding:25px 0 10px;border-top:1px solid var(--line)}
+.demo-request{padding-top:70px;padding-bottom:105px}
+.demo-request-inner{border-top:1px solid var(--line);padding-top:55px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);gap:clamp(36px,7vw,110px);align-items:start}
+.demo-request-copy h2{font-size:clamp(45px,5vw,77px);font-weight:400;line-height:1.03;letter-spacing:-.055em;margin:22px 0}
+.demo-request-copy>p:last-child{max-width:660px;font-size:20px;line-height:1.55;color:var(--body);margin:0}
+.demo-request-action{padding-top:12px}
+.demo-request-action .primary-cta{width:100%;max-width:440px;min-width:0}
+.demo-request-action p{max-width:475px;font-size:16px;line-height:1.6;color:var(--body);margin:19px 0 0}
+.demo-request-privacy{border-top:1px solid var(--line);padding-top:25px;font-size:15px;line-height:1.6;color:var(--body);margin:60px 0 0;max-width:880px}
+@media(max-width:780px){
+ .platform-context,.solution-related{font-size:16px;line-height:1.55;margin-top:28px}
+ .demo-request{padding-top:45px;padding-bottom:77px}
+ .demo-request-inner{grid-template-columns:minmax(0,1fr);gap:25px;padding-top:35px}
+ .demo-request-copy h2{font-size:clamp(42px,9vw,66px)}
+ .demo-request-copy>p:last-child{font-size:18px}
+ .demo-request-action{padding-top:0}
+ .demo-request-privacy{margin-top:43px}
+}
