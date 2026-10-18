@@ -7,9 +7,10 @@ Run after installing playwright and Chromium:
   python scripts/browser_smoke.py
 """
 from __future__ import annotations
+import os
 from playwright.sync_api import sync_playwright
 BASE = "https://mmedsystems.com"
-PUBLIC_PATHS = ["/", "/platform/", "/solutions/", "/contact/", "/private-clinics/"]
+PUBLIC_PATHS = ["/", "/platform/", "/solutions/", "/contact/", "/private-clinics/", "/request-demo/"]
 
 
 def assert_page(page, path: str) -> None:
@@ -27,8 +28,19 @@ def test_view(browser, width: int, height: int) -> None:
         assert_page(page, path)
     assert_page(page, "/")
     assert page.locator("a.primary-cta").count() == 1, "Homepage must have exactly one primary demo CTA"
-    assert page.locator("a.primary-cta").get_attribute("href").startswith("mailto:"), "Unexpected demo route"
+    demo_route = page.locator("a.primary-cta").get_attribute("href")
+    if os.environ.get("GITHUB_EVENT_NAME") == "pull_request":
+        # PR checks run against the already-deployed site, which may still be on
+        # the previous release. The static checker enforces the NEW source route.
+        assert demo_route == "/request-demo/" or demo_route.startswith("mailto:"), "Unexpected demo route"
+    else:
+        assert demo_route == "/request-demo/", "Live homepage has not deployed the inquiry path"
     assert page.evaluate("getComputedStyle(document.body).backgroundColor") == "rgb(255, 255, 255)", "White background changed"
+    assert_page(page, "/request-demo/")
+    assert page.locator('a[href^="mailto:partnerships@mmedsystems.com"]').count() >= 1, "Demo request email route missing"
+    if os.environ.get("GITHUB_EVENT_NAME") != "pull_request":
+        assert "NDA" in page.locator("main").inner_text(), "Private demo NDA conditions missing"
+    assert_page(page, "/")
     if width <= 680:
         toggle = page.locator("#menu-toggle")
         assert toggle.is_visible(), "Mobile menu toggle hidden"
