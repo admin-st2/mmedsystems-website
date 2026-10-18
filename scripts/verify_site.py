@@ -39,6 +39,7 @@ class HTMLChecks(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.title: list[str] = []
         self.in_title = False
+        self.title_seen = False
         self.h1s = 0
         self.meta: dict[str, str] = {}
         self.canonicals: list[str] = []
@@ -47,8 +48,9 @@ class HTMLChecks(HTMLParser):
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         a = dict(attrs)
-        if tag == "title":
+        if tag == "title" and not self.title_seen:
             self.in_title = True
+            self.title_seen = True
         elif tag == "h1":
             self.h1s += 1
         elif tag == "meta":
