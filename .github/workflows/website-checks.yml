@@ -5,6 +5,7 @@ on:
       - '**/*.html'
       - 'CNAME'
       - 'robots.txt'
+      - '*.txt'
       - 'sitemap.xml'
       - 'scripts/verify_site.py'
       - '.github/workflows/website-checks.yml'
