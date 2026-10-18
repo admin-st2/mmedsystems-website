@@ -141,6 +141,20 @@ def main() -> int:
         for href in parser.hrefs + parser.assets:
             check_link(href, url, label)
 
+    # Conversion and privacy contract for the public corporate website.
+    homepage = (ROOT / "index.html").read_text(encoding="utf-8")
+    check(homepage.count('<a class="primary-cta" href="/request-demo/"') == 1,
+          "Homepage must have exactly one primary CTA linking to the public request page")
+    request_page = (ROOT / "request-demo" / "index.html").read_text(encoding="utf-8")
+    check("partnerships@mmedsystems.com" in request_page,
+          "Demo request must provide a working company inquiry address")
+    check("NDA" in request_page and "approved invitees" in request_page,
+          "Public request page must explain invitation and NDA controls")
+    check("https://demo.mmedsystems.com" not in homepage + request_page,
+          "Public CTA and request page must not disclose a direct private-demo link")
+    check("No request is submitted automatically" in request_page,
+          "Email-composer workflow must not be presented as a submitted web form")
+
     # The site uses folder-based clean URLs; include new public pages in the sitemap.
     for file in ROOT.glob("*/index.html"):
         if file.parts[-2] == "prototype":
