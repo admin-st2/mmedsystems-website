@@ -96,7 +96,7 @@ def main() -> int:
     # IndexNow uses a deliberately public root-level key file. Validate its filename
     # and payload without printing the key or contacting any private service.
     indexnow_files = [p for p in ROOT.glob("*.txt")
-                      if re.fullmatch(r"[a-zA-Z0-9-]{8,128}\\.txt", p.name)]
+                      if re.fullmatch(r"[a-zA-Z0-9-]{8,128}\.txt", p.name)]
     check(len(indexnow_files) == 1, "expected one public IndexNow verification file")
     for file in indexnow_files:
         check(file.read_text(encoding="utf-8").strip() == file.stem,
