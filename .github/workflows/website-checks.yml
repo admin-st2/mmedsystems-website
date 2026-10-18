@@ -1,0 +1,27 @@
+name: MMeD corporate site checks
+on:
+  pull_request:
+    paths:
+      - '**/*.html'
+      - 'CNAME'
+      - 'robots.txt'
+      - 'sitemap.xml'
+      - 'scripts/verify_site.py'
+      - '.github/workflows/website-checks.yml'
+      - 'scripts/check_live_site.py'
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+permissions:
+  contents: read
+jobs:
+  static-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate canonical URLs, navigation, metadata, and demo separation
+        run: python3 scripts/verify_site.py
+      - name: Verify public DNS, trusted HTTPS, and deployed routes
+        run: python3 scripts/check_live_site.py
