@@ -155,7 +155,20 @@ def main() -> int:
     check("No request is submitted automatically" in request_page,
           "Email-composer workflow must not be presented as a submitted web form")
 
-    # The site uses folder-based clean URLs; include new public pages in the sitemap.
+    # Lead capture is staged but MUST remain fail-closed until the dedicated
+    # environment, privacy disclosures, Turnstile, and Resend are validated.
+    lead_config = (ROOT / "website-leads-config.js").read_text(encoding="utf-8")
+    check("enabled: false" in lead_config,
+          "Staged lead capture must remain disabled on the public website")
+    check("service_role" not in lead_config and "RESEND_API_KEY" not in lead_config,
+          "Browser config must not contain server credentials")
+    check('id="lead-capture"' in request_page and 'id="lead-intake-form"' in request_page,
+          "Staged form missing from request-demo source")
+    check('id="lead-capture" aria-labelledby="lead-form-heading" hidden' in request_page,
+          "Staged form must be hidden until safely configured")
+    check("website-leads.js" in request_page and "website-leads-config.js" in request_page,
+          "Missing progressive enhancement scripts")
+        # The site uses folder-based clean URLs; include new public pages in the sitemap.
     for file in ROOT.glob("*/index.html"):
         if file.parts[-2] == "prototype":
             continue

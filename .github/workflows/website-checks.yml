@@ -11,6 +11,10 @@ on:
       - '.github/workflows/website-checks.yml'
       - 'scripts/check_live_site.py'
       - 'scripts/browser_smoke.py'
+      - 'supabase/functions/**'
+      - 'deployment/**'
+      - 'website-leads*.js'
+      - 'website-leads*.css'
   push:
     branches: [main]
   workflow_dispatch:
@@ -43,3 +47,17 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: Check public desktop and mobile navigation
         run: python scripts/browser_smoke.py
+
+  lead-security:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Typecheck staged secure lead endpoint
+        run: deno check supabase/functions/website-lead/index.ts supabase/functions/website-lead/index.test.ts
+      - name: Test security, origin, consent and notifications with mocks
+        run: deno test --allow-env --no-prompt supabase/functions/website-lead/index.test.ts

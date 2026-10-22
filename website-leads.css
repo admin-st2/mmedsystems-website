@@ -1,0 +1,32 @@
+/* Dedicated public business inquiry form. Inactive until backend activation. */
+.lead-capture[hidden]{display:none!important}
+.lead-capture{padding-top:65px;padding-bottom:70px;border-top:1px solid #d9e3eb}
+.lead-intake-head{max-width:860px}
+.lead-intake-head h2{font-size:clamp(42px,5.4vw,80px);font-weight:400;letter-spacing:-.055em;line-height:1.04;margin:19px 0}
+.lead-intake-head p:last-child{max-width:720px;font-size:19px;line-height:1.55;color:#4f647b}
+.lead-intake-form{margin-top:43px;border-top:1px solid #d9e3eb;padding-top:37px;max-width:1120px}
+.lead-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:25px 28px}
+.lead-form-grid>label,.lead-message{display:flex;flex-direction:column;gap:9px;font-size:17px;font-weight:700;color:#0b1f3a}
+.lead-form-grid input,.lead-form-grid select,.lead-message textarea{display:block;width:100%;min-height:51px;border:1px solid #aebfd0;border-radius:3px;padding:12px 14px;font-size:17px;font-family:"Times New Roman",Times,serif;color:#0b1f3a;background:#fff}
+.lead-message{margin-top:26px}
+.lead-message textarea{resize:vertical}
+.lead-interests{border:0;border-top:1px solid #d9e3eb;padding:27px 0 0;margin:33px 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 22px}
+.lead-interests legend{font-size:18px;font-weight:700;padding:0 0 17px}
+.lead-interests label{display:flex;align-items:start;gap:10px;font-size:17px;line-height:1.45}
+.lead-interests input,.lead-confirm input{width:19px;height:19px;accent-color:#1267b2;flex:none;margin-top:2px}
+.lead-confirm{display:flex;align-items:start;gap:12px;line-height:1.55;font-size:16px;max-width:900px;margin:20px 0}
+.lead-confirm a{color:#0759a4;text-decoration:underline;text-underline-offset:3px}
+.lead-turnstile{min-height:65px;margin:27px 0 17px}
+.lead-submit{display:inline-flex;align-items:center;justify-content:space-between;gap:35px;background:#0b1f3a;color:#fff;padding:19px 27px;font-family:"Times New Roman",Times,serif;font-size:20px;min-width:260px;min-height:62px;border:0;border-radius:3px;cursor:pointer}
+.lead-submit:hover,.lead-submit:focus-visible{background:#0759a4}
+.lead-submit:disabled{opacity:.65;cursor:wait}
+.lead-status{max-width:670px;min-height:25px;font-size:16px;line-height:1.5;margin-top:15px;color:#0b1f3a}
+.lead-status-error{color:#a42e2e}
+.lead-honeypot{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+@media(max-width:680px){
+.lead-capture{padding-block:38px 52px}
+.lead-form-grid,.lead-interests{grid-template-columns:1fr;gap:20px}
+.lead-intake-head p:last-child{font-size:17px}
+.lead-intake-form{margin-top:25px;padding-top:27px}
+.lead-submit{width:100%}
+}
