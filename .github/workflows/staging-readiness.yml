@@ -1,0 +1,34 @@
+name: MMeD staging readiness — no production deploy
+on:
+  push:
+    branches: [staging]
+    paths:
+      - 'scripts/build_private_staging.py'
+      - 'scripts/test_private_staging.py'
+      - '.github/workflows/staging-readiness.yml'
+      - 'docs/staging-setup.md'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  staging-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify local staging does not expose site before Cloudflare Access
+        run: python3 -m unittest discover -s scripts -p test_private_staging.py -v
+      - name: Verify default build exports only placeholder
+        run: |
+          python3 scripts/build_private_staging.py
+          test -f dist-staging/index.html
+          test ! -f dist-staging/where-we-serve/index.html
+          test ! -f dist-staging/CNAME
+          grep -q 'Private staging is not active' dist-staging/index.html
+      - name: Confirm live branch not touched
+        run: |
+          test "$GITHUB_REF_NAME" = staging
+          echo 'Stage preparation only; Cloudflare Access and explicit activation still required.'
