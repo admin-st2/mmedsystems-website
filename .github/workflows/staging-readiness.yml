@@ -30,7 +30,11 @@ jobs:
           test ! -f dist-staging/where-we-serve/index.html
           test ! -f dist-staging/CNAME
           grep -q 'Private staging is not active' dist-staging/index.html
-      - name: Confirm live branch not touched
+      - name: Confirm only staging is checked (never production main)
         run: |
-          test "$GITHUB_REF_NAME" = staging
+          if test "$GITHUB_EVENT_NAME" = "pull_request"; then
+            test "$GITHUB_BASE_REF" = staging
+          else
+            test "$GITHUB_REF_NAME" = staging
+          fi
           echo 'Stage preparation only; Cloudflare Access and explicit activation still required.'
