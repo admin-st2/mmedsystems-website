@@ -1,5 +1,7 @@
 name: MMeD staging readiness — no production deploy
 on:
+  pull_request:
+    branches: [staging]
   push:
     branches: [staging]
     paths:
