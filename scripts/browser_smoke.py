@@ -36,11 +36,19 @@ def test_view(browser, width: int, height: int) -> None:
     else:
         assert demo_route == "/request-demo/", "Live homepage has not deployed the inquiry path"
     assert page.evaluate("getComputedStyle(document.body).backgroundColor") == "rgb(255, 255, 255)", "White background changed"
+    # A PR's browser-smoke target is the already deployed website. The new
+    # region route becomes testable only after the merge deploys to Pages.
+    if os.environ.get("GITHUB_EVENT_NAME") != "pull_request":
+        assert_page(page, "/where-we-serve/")
+        assert page.locator('main h1').first.is_visible(), "Regional page heading missing"
+        assert page.locator('text=East Africa').count() >= 1, "Regional focus missing"
     assert_page(page, "/request-demo/")
     assert page.locator('a[href^="mailto:partnerships@mmedsystems.com"]').count() >= 1, "Demo request email route missing"
     if os.environ.get("GITHUB_EVENT_NAME") != "pull_request":
         assert "NDA" in page.locator("main").inner_text(), "Private demo NDA conditions missing"
     assert_page(page, "/")
+    if os.environ.get("GITHUB_EVENT_NAME") != "pull_request":
+        assert page.locator('section.reach-teaser a[href="/where-we-serve/"]').count() == 3, "Home regional cards missing"
     if width <= 680:
         toggle = page.locator("#menu-toggle")
         assert toggle.is_visible(), "Mobile menu toggle hidden"
