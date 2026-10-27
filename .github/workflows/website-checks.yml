@@ -11,6 +11,7 @@ on:
       - '.github/workflows/website-checks.yml'
       - 'scripts/check_live_site.py'
       - 'scripts/browser_smoke.py'
+      - 'scripts/capture_visual_review.py'
   push:
     branches: [main]
   workflow_dispatch:
@@ -43,3 +44,36 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: Check public desktop and mobile navigation
         run: python scripts/browser_smoke.py
+
+  visual-review:
+    # Only render and attach previews for a PR; never publish these as a site.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install browser for visual review
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install --with-deps chromium
+      - name: Render local PR website desktop and mobile screenshots
+        run: python scripts/capture_visual_review.py
+      - name: Attach downloadable screenshots and visual gallery
+        uses: actions/upload-artifact@v4
+        with:
+          name: mmed-visual-preview-pr-${{ github.event.pull_request.number }}
+          path: visual-review/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Share visual approval instructions
+        run: |
+          echo '## Visual review before publication' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Download **mmed-visual-preview-pr-${{ github.event.pull_request.number }}** under **Artifacts** on this workflow run.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Unzip it, open **index.html**, and review all desktop and mobile screenshots.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'This job reads only pull-request source files locally. **Nothing has been deployed to the public website.**' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Owner approval is required before merging or publishing design changes.' >> "$GITHUB_STEP_SUMMARY"
