@@ -141,6 +141,23 @@ def main() -> int:
         for href in parser.hrefs + parser.assets:
             check_link(href, url, label)
 
+    # Global market page must be discoverable from every public page's primary
+    # desktop menu, mobile menu, and footer, not hidden in a single CTA.
+    region_url = BASE + "where-we-serve/"
+    check(region_url in urls, "Where We Serve is missing from sitemap")
+    region_html = (ROOT / "where-we-serve" / "index.html").read_text(encoding="utf-8")
+    check("East Africa" in region_html and "United States" in region_html and
+          "Other global markets" in region_html, "Regional coverage is incomplete")
+    check("do not make that claim" in region_html.lower(),
+          "Region page must clarify local office/deployment claim limitations")
+    for page_file in page_paths:
+        page_html = page_file.read_text(encoding="utf-8")
+        check(page_html.count('href="/where-we-serve/"') >= 2,
+              f"{page_file.relative_to(ROOT)}: Where We Serve should appear in global navigation and footer")
+    homepage_html = (ROOT / "index.html").read_text(encoding="utf-8")
+    check('id="reach-teaser-title"' in homepage_html,
+          "Homepage is missing prominent Where We Serve region section")
+    
     # Conversion and privacy contract for the public corporate website.
     homepage = (ROOT / "index.html").read_text(encoding="utf-8")
     check(homepage.count('<a class="primary-cta" href="/request-demo/"') == 1,
