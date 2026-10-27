@@ -88,7 +88,7 @@ def access_is_active(host: str) -> bool:
     return True
 
 
-HEADERS = """/
+HEADERS = """/*
   X-Robots-Tag: noindex, nofollow, noarchive, nosnippet
   X-Content-Type-Options: nosniff
   Referrer-Policy: no-referrer
