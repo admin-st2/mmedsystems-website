@@ -462,3 +462,59 @@ a.primary-cta:hover .external-arrow,a.primary-cta:focus-visible .external-arrow{
  .demo-request-action{padding-top:0}
  .demo-request-privacy{margin-top:43px}
 }
+
+
+/* Global service markets and content depth: editorial design, no generic map artwork. */
+.reach-teaser{background:#f5f9fd;border-top:1px solid #d9e3eb;border-bottom:1px solid #d9e3eb;padding:96px 0}
+.reach-teaser-head,.reach-overview-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.78fr);gap:clamp(35px,7vw,115px);align-items:end}
+.reach-teaser h2,.reach-overview-head h2{font-size:clamp(46px,6vw,85px);font-weight:400;line-height:1.04;letter-spacing:-.06em;margin:18px 0 0}
+.reach-teaser h2 em,.reach-overview-head h2 em{color:var(--blue);font-weight:400}
+.reach-teaser-head>p,.reach-overview-head>p{font-size:19px;line-height:1.6;color:var(--body);margin:0;max-width:610px}
+.reach-teaser-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid #cedbe6;margin-top:54px}
+.reach-teaser-grid>a{padding:29px 30px 32px;border-right:1px solid #cedbe6;display:flex;flex-direction:column;min-height:208px;transition:background .2s}
+.reach-teaser-grid>a:first-child{padding-left:0}
+.reach-teaser-grid>a:last-child{border-right:0}
+.reach-teaser-grid>a:hover,.reach-teaser-grid>a:focus-visible{background:rgba(255,255,255,.66)}
+.reach-teaser-grid span,.reach-card-count{font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--blue);text-transform:uppercase}
+.reach-teaser-grid h3{font-weight:400;letter-spacing:-.035em;font-size:clamp(27px,3vw,41px);margin:21px 0 10px}
+.reach-teaser-grid p{font-size:16px;color:var(--body);line-height:1.5;margin:0}
+.reach-overview,.reach-questions{padding-top:112px;padding-bottom:119px}
+.reach-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:58px}
+.reach-card{background:#f5f9fd;border:1px solid #e0e8ef;padding:clamp(27px,4vw,59px);display:flex;flex-direction:column;min-height:380px}
+.reach-card h3{font-size:clamp(36px,4vw,55px);letter-spacing:-.05em;font-weight:400;margin:32px 0 16px}
+.reach-card p{font-size:19px;line-height:1.58;color:var(--body);margin:0 0 28px}
+.reach-card a{display:inline-block;margin-top:auto;color:var(--blue-deep);text-decoration:underline;text-underline-offset:5px;font-size:17px}
+.reach-method{background:#eef4fa;padding:100px 0 110px}
+.reach-method-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 42px;margin-top:60px}
+.reach-method-grid article{border-top:1px solid #c8d9e9;padding:28px 0 34px}
+.reach-method-grid h3,.reach-faq h3{font-size:clamp(27px,3vw,38px);font-weight:400;letter-spacing:-.035em;margin:0 0 14px}
+.reach-method-grid p,.reach-faq p{font-size:18px;line-height:1.58;color:var(--body);margin:0;max-width:720px}
+.reach-faq{margin-top:57px}
+.reach-faq article{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:35px;border-top:1px solid var(--line);padding:28px 0 37px}
+.reach-faq article:last-child{border-bottom:1px solid var(--line)}
+.content-deep-dive{border-top:1px solid var(--line);padding-top:48px;padding-bottom:77px}
+.content-deep-dive>h2{font-size:clamp(36px,4vw,58px);font-weight:400;line-height:1.1;letter-spacing:-.04em;margin:14px 0 24px}
+.content-deep-dive>p{max-width:900px;color:var(--body);font-size:19px;line-height:1.6}
+.content-deep-dive ul{font-size:18px;line-height:1.7;color:var(--body);max-width:950px;padding-left:25px}
+.content-deep-dive a{color:var(--blue-deep);text-decoration:underline;text-underline-offset:4px}
+@media(max-width:900px){
+.reach-teaser-head,.reach-overview-head{grid-template-columns:minmax(0,1fr);gap:24px}
+.reach-teaser-grid>a{padding-inline:18px}
+.reach-teaser-grid>a:first-child{padding-left:0}
+.reach-overview,.reach-questions{padding-block:75px}
+.reach-method{padding-block:80px}
+.reach-card{min-height:0}
+}
+@media(max-width:680px){
+.reach-teaser{padding:65px 0}
+.reach-teaser-grid,.reach-grid,.reach-method-grid{grid-template-columns:1fr}
+.reach-teaser-grid>a,.reach-teaser-grid>a:first-child{border-right:0;border-bottom:1px solid #cedbe6;padding:24px 8px;min-height:0}
+.reach-teaser-grid>a:last-child{border-bottom:0}
+.reach-teaser-grid h3{margin-top:10px}
+.reach-card{padding:29px}
+.reach-card h3{margin-top:19px}
+.reach-card p,.reach-overview-head>p,.reach-teaser-head>p{font-size:17px}
+.reach-faq article{grid-template-columns:1fr;gap:8px;padding-block:26px}
+.reach-method-grid{gap:0}
+.content-deep-dive{padding-block:35px 65px}
+}
