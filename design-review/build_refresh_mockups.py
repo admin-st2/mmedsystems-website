@@ -343,7 +343,7 @@ def screenshot_set(browser, base: str, label: str, output: Path, entries: list):
 
 def gallery(entries: list, output: Path) -> None:
     items = []
-    for slug, _, _, title in PAGES:
+    for slug, route, title in PAGES:
         for view, _, _ in VIEWS:
             before = next((v[4] for v in entries if v[0]==slug and v[1]=="before" and v[2]==view), None)
             after = next((v[4] for v in entries if v[0]==slug and v[1]=="after" and v[2]==view), None)
