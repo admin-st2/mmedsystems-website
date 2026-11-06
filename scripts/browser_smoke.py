@@ -45,6 +45,16 @@ def test_view(browser, width: int, height: int) -> None:
     assert_page(page, "/request-demo/")
     assert page.locator('a[href^="mailto:partnerships@mmedsystems.com"]').count() >= 1, "Demo request email route missing"
     if os.environ.get("GITHUB_EVENT_NAME") != "pull_request":
+        # The campaign page is only checked against the deployed site after merging.
+        response = page.goto(BASE + "/beyond-the-standard/", wait_until="domcontentloaded", timeout=30000)
+        assert response and response.status == 200, "Campaign page not deployed"
+        assert page.locator("h1").count() == 1, "Campaign page must have one H1"
+        assert page.locator('link[rel="canonical"]').get_attribute("href") == BASE + "/beyond-the-standard/", "Campaign canonical URL wrong"
+        assert page.locator('a.cta[href="/request-demo/"]').count() == 2, "Campaign demo CTAs must lead to existing private request path"
+        assert page.locator('img[src="/mmed-wordmark.svg"]').count() == 2, "Campaign brand mark inconsistent"
+        assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth + 2"), f"Campaign horizontal overflow at {width}px"
+        assert page.locator("h1").is_visible(), "Campaign headline is hidden"
+    if os.environ.get("GITHUB_EVENT_NAME") != "pull_request":
         assert "NDA" in page.locator("main").inner_text(), "Private demo NDA conditions missing"
     assert_page(page, "/")
     if os.environ.get("GITHUB_EVENT_NAME") != "pull_request":
