@@ -595,3 +595,10 @@ a.primary-cta:hover .external-arrow,a.primary-cta:focus-visible .external-arrow{
   .site-footer{padding-top:48px}
   .footer-grid{padding-bottom:42px}
 }
+
+/* Fix pre-existing narrow-phone overflow: the capability button was forced
+   into implicit grid column 2 on a one-column layout at 320px. */
+@media(max-width:760px){
+  .capability .go{grid-column:1;grid-row:3;justify-self:start;min-width:0;
+    max-width:100%;margin-top:0}
+}
