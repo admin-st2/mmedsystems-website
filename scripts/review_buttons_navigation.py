@@ -73,9 +73,10 @@ def main() -> None:
                     assert toggle.locator("span").first.inner_text()=="Close",\
                         f"{name}: visible Close label missing"
                     assert panel.is_visible()
-                    assert page.evaluate(
-                        "document.activeElement===document.querySelector('#site-menu-panel a[href]')"
-                    ),f"{name}: first menu link was not focused"
+                    page.wait_for_function(
+                        "document.activeElement===document.querySelector('#site-menu-panel a[href]')",
+                        timeout=2000,
+                    )
                     # Accessibility: Escape closes the disclosure and returns focus.
                     page.keyboard.press("Escape")
                     assert toggle.get_attribute("aria-expanded")=="false"
