@@ -93,7 +93,9 @@ def main()->None:
                         assert menu.evaluate("(node)=>document.activeElement===node")
                         # Outside click closes without accidentally navigating.
                         menu.click()
-                        page.locator("main h1").first.click(force=True)
+                        page.evaluate("""() => document.body.dispatchEvent(
+                            new MouseEvent('click', {bubbles:true})
+                        )""")
                         assert panel.is_hidden()
                         # Interactive links must have touch-size targets where expected.
                         buttons=page.locator(".primary-cta,.solution-inline-cta,.solution-connect a")
