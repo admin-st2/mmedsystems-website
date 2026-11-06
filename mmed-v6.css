@@ -636,3 +636,17 @@ a.primary-cta:hover .external-arrow,a.primary-cta:focus-visible .external-arrow{
    Where We Serve unreachable except through a deep link. Keep that group
    available at all widths without changing navigation order or page layout. */
 #site-menu-panel .menu-primary{display:block!important;grid-column:1/-1}
+
+
+/* Keep the full page menu visible on phones; on wider screens reveal the
+   requested regional destination without repeating the entire top navigation. */
+@media(min-width:721px){
+ #site-menu-panel .menu-primary{grid-column:1/-1!important;padding:0 0 15px;margin:0 0 8px;
+   border-bottom:1px solid var(--line)}
+ #site-menu-panel .menu-primary-list{display:flex;gap:8px;flex-wrap:wrap}
+ #site-menu-panel .menu-primary-list>a:not([href="/where-we-serve/"]){display:none}
+ #site-menu-panel .menu-primary-list>a[href="/where-we-serve/"]{
+   display:inline-flex;align-items:center;gap:12px;min-height:44px;
+   padding:10px 15px;border:1px solid var(--line);background:var(--pale);
+   color:var(--navy);font-weight:700}
+}
