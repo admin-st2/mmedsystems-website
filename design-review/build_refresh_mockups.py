@@ -320,6 +320,15 @@ def screenshot_set(browser, base: str, label: str, output: Path, entries: list):
               html{scroll-behavior:auto!important}
             """)
             if label == "after":
+                assert page.locator("#main-nav a[href='/where-we-serve/']").count() == 0, (
+                    "Where We Serve must remain hamburger-only"
+                )
+                assert page.locator("#site-menu-panel a[href='/where-we-serve/']").count() == 1, (
+                    "Where We Serve missing from hamburger menu"
+                )
+                assert page.evaluate("getComputedStyle(document.querySelector('.site-header')).position") == "sticky", (
+                    "Header is not sticky"
+                )
                 assert page.locator('.refresh-header-demo[href="/request-demo/"]').count() == 1
                 assert page.locator('#main-nav a[href="/pricing/"]').count() == 1
                 if slug == "pricing":
@@ -333,6 +342,19 @@ def screenshot_set(browser, base: str, label: str, output: Path, entries: list):
                     assert page.locator(".pricing-faq details").count() >= 6
                 if slug == "contact":
                     assert page.locator(".refresh-contact-form input:disabled").count() == 3
+                    assert page.locator(".refresh-contact-form button:disabled").count() == 1
+                if slug == "home" and view == "mobile":
+                    toggle = page.locator("#menu-toggle")
+                    assert toggle.is_visible(), "Mobile hamburger toggle missing"
+                    toggle.click()
+                    panel = page.locator("#site-menu-panel")
+                    assert panel.is_visible(), "Mobile hamburger did not open"
+                    panel.locator('a[href="/pricing/"]').first.click()
+                    page.wait_for_url(base + "/pricing/", timeout=10000)
+                    assert page.locator(".pricing-card").count() == 4, "Mobile Pricing navigation failed"
+                    page.goto(base + "/", wait_until="networkidle", timeout=30000)
+                    page.locator("h1").first.wait_for(state="visible")
+                    page.add_style_tag(content="[data-reveal]{opacity:1!important;transform:none!important}")
             page.evaluate("window.scrollTo(0,0)")
             target = output / f"{slug}-{label}-{view}.png"
             page.screenshot(path=str(target), full_page=True, animations="disabled")
