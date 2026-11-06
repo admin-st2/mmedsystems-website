@@ -61,6 +61,34 @@ def main() -> None:
                             f"{path} preview failed to load"
                         )
                         page.locator("h1").first.wait_for(state="visible")
+                        # Test the requested homepage/menu behavior against the
+                        # proposed branch, not just against the live website.
+                        assert page.locator('#site-menu-panel a[href="/where-we-serve/"]').count() == 1, (
+                            "Where We Serve missing from hamburger menu"
+                        )
+                        assert page.locator('#main-nav a[href="/where-we-serve/"]').count() == 0, (
+                            "Where We Serve unexpectedly in desktop navigation"
+                        )
+                        assert page.locator('.site-footer a[href="/where-we-serve/"]').count() == 0, (
+                            "Where We Serve unexpectedly in footer"
+                        )
+                        if path == "/":
+                            assert page.locator("section.reach-teaser").count() == 0, (
+                                "Unrequested regional homepage section has returned"
+                            )
+                            if view_name == "mobile":
+                                toggle = page.locator("#menu-toggle")
+                                assert toggle.is_visible(), "Hamburger menu not visible on mobile"
+                                toggle.click()
+                                panel = page.locator("#site-menu-panel")
+                                assert panel.is_visible(), "Hamburger panel failed to open"
+                                panel.locator('a[href="/where-we-serve/"]').first.click()
+                                page.wait_for_url(base_url + "/where-we-serve/")
+                                assert page.locator("h1").first.is_visible(), (
+                                    "Where We Serve navigation failed"
+                                )
+                                page.goto(base_url + "/", wait_until="networkidle")
+
                         # Disable entrances and scrolling offsets for review screenshots.
                         page.add_style_tag(content="""
                             *, *::before, *::after { animation: none !important;
