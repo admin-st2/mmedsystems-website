@@ -38,3 +38,31 @@ jobs:
             test "$GITHUB_REF_NAME" = staging
           fi
           echo 'Stage preparation only; Cloudflare Access and explicit activation still required.'
+
+  staging-visual-review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install local browser test dependencies
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install --with-deps chromium
+      - name: Capture proposed staging layouts only
+        run: python scripts/capture_visual_review.py
+      - name: Publish review artifact, not a website deployment
+        uses: actions/upload-artifact@v4
+        with:
+          name: mmed-tlc-staging-preview-${{ github.event.pull_request.number }}
+          path: visual-review/
+          retention-days: 14
+          if-no-files-found: error
+      - name: Review instructions
+        run: |
+          echo '## Review before approval' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Download the staging preview ZIP from **Artifacts**; open index.html to compare desktop/mobile layouts.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'These screenshots are rendered locally from proposed source; **no change to production has been published.**' >> "$GITHUB_STEP_SUMMARY"
