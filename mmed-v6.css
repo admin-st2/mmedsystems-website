@@ -631,3 +631,8 @@ a.primary-cta:hover .external-arrow,a.primary-cta:focus-visible .external-arrow{
   #menu-toggle,.primary-cta,.solution-inline-cta,.solution-connect a,
   .menu-inline,.audience-card .go,.capability .go{transition:none!important;transform:none!important}
 }
+
+/* Previously the desktop hamburger hid its Primary pages group, making
+   Where We Serve unreachable except through a deep link. Keep that group
+   available at all widths without changing navigation order or page layout. */
+#site-menu-panel .menu-primary{display:block!important;grid-column:1/-1}
