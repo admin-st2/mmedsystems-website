@@ -23,3 +23,7 @@ Status: **Review only; do not merge into live main or staging without owner appr
 
 ## Limitations
 This changes interaction consistency and clarity, not the entire website UX. The site's request-demo email-composer fallback remains in place until the independently staged and security-reviewed lead form is activated with consent. No unverified HIPAA badges, price plans or product screenshots are introduced.
+
+## Additional verified defect fixed
+
+At desktop widths, the existing `.menu-primary` group was hidden in the hamburger panel (CSS `display:none`), which made the only hamburger-only **Where We Serve** destination unreachable from desktop navigation. The review corrects the visibility of that existing group at every viewport while preserving its original link order and content. Chromium tests now verify the real desktop and mobile menu route, focus management, and no narrow-screen overflow.
