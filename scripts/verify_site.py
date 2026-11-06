@@ -141,22 +141,36 @@ def main() -> int:
         for href in parser.hrefs + parser.assets:
             check_link(href, url, label)
 
-    # Global market page must be discoverable from every public page's primary
-    # desktop menu, mobile menu, and footer, not hidden in a single CTA.
+    # Per owner direction: preserve the existing visual design. Put
+    # Where We Serve in the hamburger menu, not the homepage, primary
+    # desktop navigation, or footer.
     region_url = BASE + "where-we-serve/"
-    check(region_url in urls, "Where We Serve is missing from sitemap")
+    check(region_url in urls, "Where We Serve missing from sitemap")
     region_html = (ROOT / "where-we-serve" / "index.html").read_text(encoding="utf-8")
     check("East Africa" in region_html and "United States" in region_html and
           "Other global markets" in region_html, "Regional coverage is incomplete")
-    check("do not make that claim" in region_html.lower(),
-          "Region page must clarify local office/deployment claim limitations")
+    check("not a claim of an operating office" in region_html.lower(),
+          "Region page must distinguish engagement from verified deployments")
+    check('class="reach-card"' not in region_html,
+          "Where We Serve must use existing site components, not bespoke redesign cards")
     for page_file in page_paths:
         page_html = page_file.read_text(encoding="utf-8")
-        check(page_html.count('href="/where-we-serve/"') >= 2,
-              f"{page_file.relative_to(ROOT)}: Where We Serve should appear in global navigation and footer")
+        check('href="/where-we-serve/">Where We Serve <span' in page_html,
+              f"{page_file.relative_to(ROOT)}: hamburger Where We Serve link missing")
+        header_match = re.search(
+            r'<nav aria-label="Main navigation"[^>]*>(.*?)</nav>', page_html, re.S
+        )
+        check(bool(header_match) and 'href="/where-we-serve/"' not in header_match.group(1),
+              f"{page_file.relative_to(ROOT)}: region link must not clutter desktop navigation")
+        footer_match = re.search(
+            r'<div class="footer-column"><h4>Company</h4>(.*?)</div>', page_html, re.S
+        )
+        check(bool(footer_match) and 'href="/where-we-serve/"' not in footer_match.group(1),
+              f"{page_file.relative_to(ROOT)}: keep region link inside hamburger menu")
     homepage_html = (ROOT / "index.html").read_text(encoding="utf-8")
-    check('id="reach-teaser-title"' in homepage_html,
-          "Homepage is missing prominent Where We Serve region section")
+    check('id="reach-teaser-title"' not in homepage_html and
+          'class="reach-teaser"' not in homepage_html,
+          "Homepage should not contain the removed Where We Serve region section")
     
     # Conversion and privacy contract for the public corporate website.
     homepage = (ROOT / "index.html").read_text(encoding="utf-8")
