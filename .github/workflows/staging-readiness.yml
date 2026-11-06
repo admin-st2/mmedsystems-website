@@ -51,7 +51,7 @@ jobs:
       - name: Install local browser test dependencies
         run: |
           python -m pip install playwright==1.57.0
-          python -m playwright install --with-deps chromium
+          python -m playwright install chromium
       - name: Capture proposed staging layouts only
         run: python scripts/capture_visual_review.py
       - name: Publish review artifact, not a website deployment
