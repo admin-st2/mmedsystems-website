@@ -73,6 +73,16 @@ def main() -> None:
                     assert toggle.locator("span").first.inner_text()=="Close",\
                         f"{name}: visible Close label missing"
                     assert panel.is_visible()
+                    debug_focus=page.evaluate("""() => {
+                        const first=document.querySelector('#site-menu-panel a[href]');
+                        const active=document.activeElement;
+                        return {first:first?.outerHTML.slice(0,125),
+                          visible:first?getComputedStyle(first).display:null,
+                          parentVisible:first?.parentElement?.getBoundingClientRect().height,
+                          active:active?.outerHTML.slice(0,180),
+                          panelHidden:document.querySelector('#site-menu-panel').hidden};
+                    }""")
+                    print(f"DEBUG {name}: {debug_focus}",flush=True)
                     page.wait_for_function(
                         "document.activeElement===document.querySelector('#site-menu-panel a[href]')",
                         timeout=2000,
