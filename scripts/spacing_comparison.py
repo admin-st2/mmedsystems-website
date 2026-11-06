@@ -115,10 +115,21 @@ def capture(browser, root_url, version, view_name, width, height, save, rows):
         }""")
         assert stats["nav"], "Hamburger regional navigation missing"
         assert "Times New Roman" in stats["font"], "Existing font changed"
-        assert stats["scrollWidth"] <= stats["innerWidth"] + 3, (
-            f"{slug}/{version}/{view_name}: horizontal overflow "
-            f"{stats['scrollWidth']-stats['innerWidth']}px"
-        )
+        overflow = stats["scrollWidth"] - stats["innerWidth"]
+        if overflow > 3:
+            culprits = page.evaluate("""() => [...document.querySelectorAll('body *')]
+              .map(el => ({el,box:el.getBoundingClientRect()}))
+              .filter(o => o.box.width > 0 && o.box.right > window.innerWidth + 3)
+              .slice(0,8)
+              .map(o => ({tag:o.el.tagName.toLowerCase(),
+                className:String(o.el.className || '').slice(0,100),
+                right:Math.round(o.box.right),width:Math.round(o.box.width)}))
+            """)
+            print(f"OVERFLOW {slug}/{version}/{view_name}: {overflow}px, elements={culprits}")
+        if version == "after":
+            assert overflow <= 3, (
+                f"{slug}/{version}/{view_name}: horizontal overflow {overflow}px"
+            )
         assert stats["mainCta"] if route == "/" else True, "Homepage main CTA missing"
         rows.append({"page": slug, "view": view_name, "version": version, **stats})
         if save:
