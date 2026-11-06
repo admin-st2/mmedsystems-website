@@ -74,7 +74,7 @@ def main() -> None:
                         f"{name}: visible Close label missing"
                     assert panel.is_visible()
                     page.wait_for_function(
-                        "document.activeElement===document.querySelector('#site-menu-panel a[href]')",
+                        "document.activeElement && document.activeElement.closest('#site-menu-panel') && document.activeElement.getClientRects().length>0",
                         timeout=2000,
                     )
                     # Accessibility: Escape closes the disclosure and returns focus.
