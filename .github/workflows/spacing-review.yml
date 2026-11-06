@@ -1,0 +1,40 @@
+name: MMeD spacing before-and-after review (not deployed)
+on:
+  pull_request:
+    branches: [content/staging-tlc-preserve-live-design-2026-11-06]
+    paths:
+      - 'mmed-v6.css'
+      - 'scripts/spacing_comparison.py'
+      - '.github/workflows/spacing-review.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compare-spacing:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install supported Chromium and Playwright
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install chromium
+      - name: Compare desktop/tablet/mobile and check for overflow
+        run: python scripts/spacing_comparison.py
+      - name: Upload before and after screenshots for owner approval
+        uses: actions/upload-artifact@v4
+        with:
+          name: mmed-spacing-before-after-pr-${{ github.event.pull_request.number }}
+          path: spacing-review/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Confirm this is a review, not a site deployment
+        run: |
+          echo '## MMeD spacing review' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Download the before/after gallery from Artifacts, open index.html, and review the original and tighter layouts.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'We tested desktop (1440px), tablet (768px), mobile (390px), and small mobile (320px).' >> "$GITHUB_STEP_SUMMARY"
+          echo 'No live MMeD website or private demonstration content was deployed or modified.' >> "$GITHUB_STEP_SUMMARY"
