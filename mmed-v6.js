@@ -21,7 +21,11 @@
   toggle.setAttribute('aria-expanded','true');
   toggle.setAttribute('aria-label','Close navigation menu');
   if(toggleText)toggleText.textContent='Close';
-  var first=menuPanel.querySelector('a[href]');
+  // Focus the first visible menu destination, not a link hidden at
+  // this viewport (desktop menu intentionally avoids duplicate top links).
+  var first=[].slice.call(menuPanel.querySelectorAll('a[href]')).find(function(link){
+   return link.getClientRects().length>0 && getComputedStyle(link).visibility!=='hidden';
+  });
   if(first)first.focus({preventScroll:true});
  }
  if(toggle&&menuPanel){
