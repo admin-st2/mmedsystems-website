@@ -1,0 +1,40 @@
+name: MMeD buttons and navigation UX review — no deployment
+on:
+  pull_request:
+    branches: [spacing/compact-responsive-review-2026-11-06]
+    paths:
+      - 'mmed-v6.css'
+      - 'mmed-v6.js'
+      - 'scripts/ux_navigation_review.py'
+      - '.github/workflows/ux-navigation-review.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ux-browser-check:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install supported browser
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install chromium
+      - name: Validate navigation behavior, focus, button touch targets and overflow
+        run: python scripts/ux_navigation_review.py
+      - name: Attach screenshots and test report for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: mmed-buttons-navigation-pr-${{ github.event.pull_request.number }}
+          path: ux-review/
+          retention-days: 14
+          if-no-files-found: error
+      - name: Owner review reminder
+        run: |
+          echo '## Buttons & navigation visual review' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Artifacts include key page screenshots and metrics for 1440px, 768px, 390px and 320px widths.' >> "$GITHUB_STEP_SUMMARY"
+          echo '**No production deploy. Await explicit owner approval.**' >> "$GITHUB_STEP_SUMMARY"
