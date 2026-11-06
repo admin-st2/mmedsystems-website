@@ -30,7 +30,8 @@ jobs:
 
   browser-smoke:
     if: github.event_name != 'schedule'
-    runs-on: ubuntu-latest
+    # Playwright 1.57 does not support the newer ubuntu-26.04 runner image.
+    runs-on: ubuntu-24.04
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
