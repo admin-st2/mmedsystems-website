@@ -1,0 +1,36 @@
+name: MMeD FAQ — browser and accessibility review
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'faq/**'
+      - 'mmed-v6.css'
+      - 'scripts/faq_browser_check.py'
+      - '.github/workflows/faq-review.yml'
+      - 'sitemap.xml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  faq-check:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install supported Chromium test browser
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install chromium
+      - name: Test FAQ interactions and footer navigation
+        run: python scripts/faq_browser_check.py
+      - name: Upload review screenshots and results
+        uses: actions/upload-artifact@v4
+        with:
+          name: mmed-faq-review-${{ github.event.pull_request.number }}
+          path: faq-review/
+          retention-days: 14
+          if-no-files-found: error
