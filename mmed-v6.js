@@ -47,6 +47,10 @@
    if(!menuPanel.hidden&&!menuPanel.contains(e.target)&&!toggle.contains(e.target))closeMenu(false);
   });
   window.addEventListener('pageshow',function(){closeMenu(false)});
+  // A layout switch can hide the focused primary link. Close the disclosure
+  // and return focus to its toggle rather than leave focus on hidden content.
+  var compactNavigation=window.matchMedia('(max-width:1120px)');
+  compactNavigation.addEventListener('change',function(){closeMenu(true)});
  }
  // Keep the current page identifiable even in the large hamburger menu.
  // Do not reorder navigation, change URLs, or mark anchor-only links as pages.
