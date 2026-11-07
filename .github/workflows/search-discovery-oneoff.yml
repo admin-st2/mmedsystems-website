@@ -1,0 +1,61 @@
+name: MMeD public search discovery - audit and one-off submission
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+    paths:
+      - 'scripts/search_discovery_audit.py'
+      - '.github/workflows/search-discovery-oneoff.yml'
+  workflow_dispatch:
+    inputs:
+      submit:
+        description: 'Submit the verified live URLs once (only after meaningful published changes)'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: mmed-public-search-discovery
+  cancel-in-progress: false
+jobs:
+  public-search:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+      github.head_ref == 'seo/search-discovery-2026-11-07')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Static safety checks
+        run: |
+          python3 -m py_compile scripts/search_discovery_audit.py
+          python3 - <<'PY'
+          from scripts.search_discovery_audit import safe_public_url, HeadParser
+          assert safe_public_url('https://mmedsystems.com/faq/')
+          for url in ['https://demo.mmedsystems.com/', 'https://evil.example/', 'http://mmedsystems.com/', 'https://mmedsystems.com/preview/', 'https://mmedsystems.com/docs/test', 'https://mmedsystems.com/?secret=example']:
+              assert not safe_public_url(url), url
+          p=HeadParser()
+          p.feed('<head><title>Title</title><meta name="robots" content="noindex"><link rel="canonical" href="https://mmedsystems.com/"></head><svg><title>Logo</title></svg>')
+          assert p.title == ['Title'] and p.directives == ['noindex']
+          print('PASS: hostname, private-path, metadata and XML submission guards.')
+          PY
+      - name: Audit deployed pages and send one user-authorized notification batch
+        env:
+          SUBMIT: ${{ (github.event_name == 'pull_request' && github.event.action == 'opened') || (github.event_name == 'workflow_dispatch' && inputs.submit) }}
+        run: |
+          if test "$SUBMIT" = 'true'; then
+            python3 scripts/search_discovery_audit.py --submit
+          else
+            python3 scripts/search_discovery_audit.py
+          fi
+      - name: Attach crawl audit and submission receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mmed-search-discovery-${{ github.run_id }}
+          path: search-discovery-report/
+          if-no-files-found: warn
+          retention-days: 30
