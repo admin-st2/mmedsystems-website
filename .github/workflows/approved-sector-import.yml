@@ -1,0 +1,63 @@
+name: Approved MMeD sector release - import and validate
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'scripts/prepare_approved_sector_release.py'
+      - 'scripts/verify_sector_release.py'
+      - 'scripts/sector_release_browser.py'
+      - '.github/workflows/approved-sector-import.yml'
+permissions:
+  contents: write
+jobs:
+  import-approved-source:
+    if: github.head_ref == 'release/approved-sectors-2026-11-07' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Import the exact reviewed archive, keeping newer booking links
+        env:
+          MMED_APPROVED_SOURCE_URL: 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-bc78-81f5-809d-37c2683c7870/raw?se=2026-11-07T22%3A49%3A29Z&sp=r&sv=2026-02-06&sr=b&scid=174c9116-a2ff-5ee1-b508-6436f6467e4e&skoid=2757bbe4-5137-4324-975b-acedc0bad279&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-11-07T14%3A27%3A17Z&ske=2026-11-08T14%3A27%3A17Z&sks=b&skv=2026-02-06&sig=QHToiWCWEY4Lztq/7hQ5oMrz7knuxX/qmYQgAVePgzs%3D'
+        run: |
+          python -m pip install beautifulsoup4==4.14.2
+          python scripts/prepare_approved_sector_release.py
+      - name: Verify all 47 routes and preserved security/SEO boundaries
+        run: python scripts/verify_sector_release.py
+      - name: Install browser engines
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install --with-deps chromium firefox webkit
+      - name: Test the imported public source before committing
+        env:
+          MMED_TEST_BROWSERS: chromium,firefox,webkit
+        run: python scripts/sector_release_browser.py
+      - name: Retain evidence and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mmed-sector-release-qa-${{ github.run_id }}
+          path: |
+            sector-release-qa/
+            docs/releases/
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Commit validated source to the release branch, never main
+        run: |
+          test "$GITHUB_HEAD_REF" = release/approved-sectors-2026-11-07
+          git fetch origin main
+          test "$(git rev-parse origin/main)" = 521d6a0c3d2dde978e3fa29954b3c97f9c8bcc6a
+          git config user.name 'MMeD Website Release'
+          git config user.email '163439386+admin-st2@users.noreply.github.com'
+          rm -rf sector-release-qa
+          git add -- '*.html' '*.css' '*.js' '*.svg' '*.webp' robots.txt sitemap.xml docs/releases scripts/verify_site.py scripts/browser_smoke.py scripts/verify_sector_release.py scripts/sector_release_browser.py .github/workflows/website-checks.yml
+          git commit -m 'Import approved 22-sector website with verified production metadata and preserved booking'
+          git push origin HEAD:refs/heads/release/approved-sectors-2026-11-07
+          echo "VALIDATED_RELEASE_HEAD=$(git rev-parse HEAD)"
+          echo 'Validated release source committed to release branch only. Main and live deployment still require explicit merge.' >> "$GITHUB_STEP_SUMMARY"
