@@ -7,7 +7,7 @@ from pathlib import Path
 from threading import Thread
 import json
 import os
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, expect
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'sector-release-qa'
@@ -53,22 +53,29 @@ def main():
                             assert page.locator('main img[src*="/assets/sectors/"]').count()>=1
                             for img in page.locator('main img').all():
                                 img.scroll_into_view_if_needed()
-                                assert img.evaluate('(el)=>el.complete && el.naturalWidth>0'),entry['path']+' image'
+                                expect(img).to_be_visible()
+                                page.wait_for_function('(el)=>el.complete && el.naturalWidth>0',arg=img.element_handle())
                             overflow=page.evaluate('document.documentElement.scrollWidth-window.innerWidth')
                             assert overflow<=3,(entry['path'],engine,view,'overflow',overflow)
                             cta=page.locator('main a[href="/contact/#pricing-inquiries"]').first
                             assert cta.is_visible()
                             assert cta.bounding_box()['height']>=44,(entry['path'],'CTA target')
                             q=page.locator('main details').first
-                            q.locator('summary').scroll_into_view_if_needed()
-                            q.locator('summary').focus();page.keyboard.press('Enter')
-                            assert q.get_attribute('open') is not None,'Question did not open'
-                            page.keyboard.press('Enter');assert q.get_attribute('open') is None
+                            summary=q.locator('summary')
+                            summary.scroll_into_view_if_needed();summary.focus()
+                            # Approved sector answers start OPEN. Test a genuine close/open
+                            # keyboard cycle rather than assuming the initial state is closed.
+                            if q.get_attribute('open') is not None:
+                                page.keyboard.press('Enter')
+                                expect(q).not_to_have_attribute('open','')
+                            summary.focus();page.keyboard.press('Enter')
+                            expect(q).to_have_attribute('open','')
+                            page.keyboard.press('Enter');expect(q).not_to_have_attribute('open','')
                             page.locator('#menu-toggle').click()
-                            assert page.locator('#site-menu-panel').is_visible()
+                            expect(page.locator('#site-menu-panel')).to_be_visible()
                             page.keyboard.press('Escape')
-                            assert page.locator('#site-menu-panel').is_hidden()
-                            assert page.locator('#menu-toggle').evaluate('(e)=>document.activeElement===e')
+                            expect(page.locator('#site-menu-panel')).to_be_hidden()
+                            expect(page.locator('#menu-toggle')).to_be_focused()
                             rows.append({'browser':engine,'view':view,'path':entry['path'],'passed':True,'overflow':max(0,overflow)})
                         for path in ('/','/solutions/','/where-we-serve/','/faq/','/pricing/','/contact/','/request-demo/','/book/'):
                             response=page.goto(base+path,wait_until='networkidle')
@@ -77,10 +84,10 @@ def main():
                             if path=='/where-we-serve/':
                                 cards=page.locator('.sector-card[data-sector]');assert cards.count()==22
                                 field=page.locator('#sector-search');field.fill('nonsensexyz')
-                                assert cards.locator('visible=true').count()==0 if False else True
-                                assert page.locator('#sector-no-results').is_visible()
+                                expect(page.locator('.sector-card[data-sector]:visible')).to_have_count(0)
+                                expect(page.locator('#sector-no-results')).to_be_visible()
                                 page.locator('#clear-sector-search').click()
-                                assert page.locator('.sector-card[data-sector]:visible').count()==22
+                                expect(page.locator('.sector-card[data-sector]:visible')).to_have_count(22)
                                 field.fill('home health')
                                 assert page.locator('.sector-card[data-sector]:visible').count()>=1
                                 page.locator('#clear-sector-search').click()
@@ -92,8 +99,11 @@ def main():
                             if path=='/faq/':
                                 assert page.locator('details.faq-item').count()==16
                                 assert page.locator('img[src*="/assets/faq/"]').count()==1
-                                page.locator('details.faq-item summary').first.click()
-                                assert page.locator('details.faq-item[open]').count()==1
+                                first=page.locator('details.faq-item').first
+                                was_open=first.get_attribute('open') is not None
+                                first.locator('summary').click()
+                                if was_open: expect(first).not_to_have_attribute('open','')
+                                else: expect(first).to_have_attribute('open','')
                             if path=='/book/':
                                 assert page.locator('a[href^="https://calendar.google.com/calendar/"]').count()==3
                                 for a in page.locator('a[href^="https://calendar.google.com/calendar/"]').all():
@@ -103,7 +113,6 @@ def main():
                                 page.goto(base+path,wait_until='networkidle')
                                 page.screenshot(path=str(OUT/(path.strip('/').replace('/','-')+'-'+view+'.png')),full_page=True)
                             rows.append({'browser':engine,'view':view,'path':path,'core_journey':'passed'})
-                        # Navigation is tested with actual pointer and keyboard events.
                         page.goto(base+'/',wait_until='networkidle')
                         page.locator('#menu-toggle').click()
                         region=page.locator('#site-menu-panel a[href="/where-we-serve/"]')
