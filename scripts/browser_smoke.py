@@ -27,14 +27,18 @@ def test_view(browser, width: int, height: int) -> None:
     for path in PUBLIC_PATHS:
         assert_page(page, path)
     assert_page(page, "/")
-    assert page.locator("a.primary-cta").count() == 1, "Homepage must have exactly one primary demo CTA"
-    demo_route = page.locator("a.primary-cta").get_attribute("href")
-    if os.environ.get("GITHUB_EVENT_NAME") == "pull_request":
-        # PR checks run against the already-deployed site, which may still be on
-        # the previous release. The static checker enforces the NEW source route.
-        assert demo_route == "/request-demo/" or demo_route.startswith("mailto:"), "Unexpected demo route"
+    actions = page.locator(".booking-hero-actions .mmed-booking-button")
+    if actions.count():
+        assert actions.count() == 2, "Homepage needs two booking buttons"
+        for link in actions.all():
+            assert link.get_attribute("href").startswith("https://calendar.google.com/calendar/"), "Booking link must open Google Calendar"
+        assert_page(page, "/book/")
+        assert page.locator(".mmed-booking .card > a").count() == 3, "Expected three booking options"
+        assert page.evaluate("document.documentElement.scrollWidth <= document.documentElement.clientWidth"), "Booking page overflows"
+        assert "patient information" in page.locator("main").inner_text(), "Privacy guidance missing"
+        assert_page(page, "/")
     else:
-        assert demo_route == "/request-demo/", "Live homepage has not deployed the inquiry path"
+        assert os.environ.get("GITHUB_EVENT_NAME") == "pull_request", "Booking integration not live"
     assert page.evaluate("getComputedStyle(document.body).backgroundColor") == "rgb(255, 255, 255)", "White background changed"
     # A PR's browser-smoke target is the already deployed website. The new
     # region route becomes testable only after the merge deploys to Pages.
