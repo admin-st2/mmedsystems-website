@@ -52,7 +52,10 @@ def main():
                 page.goto(base + '/', wait_until='networkidle')
                 assert page.locator('.scroll-indicator').count() == 0
                 page.keyboard.press('End')
+                page.wait_for_function('window.scrollY > 0')
                 assert page.locator('.site-header').bounding_box()['y'] == 0, width
+                if width == 785:
+                    page.screenshot(path=str(OUT / 'header-scrolled-785.png'))
                 page.keyboard.press('Home')
                 toggle = page.locator('#menu-toggle')
                 panel = page.locator('#site-menu-panel')
