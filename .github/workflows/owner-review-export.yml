@@ -1,0 +1,51 @@
+name: Owner review source export - no deployment
+on:
+  pull_request:
+    branches: [ux/buttons-navigation-review-2026-11-06]
+    paths: ['.github/workflows/owner-review-export.yml']
+permissions:
+  contents: read
+jobs:
+  export-review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fbcaec59446b8613fe4cdddf5a5b4374d7509ada
+          path: candidate
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: current-main
+          persist-credentials: false
+      - name: Export only public website files
+        shell: python
+        run: |
+          import json, pathlib, subprocess, zipfile
+          root = pathlib.Path.cwd()
+          out = root / 'review-source-packets'
+          out.mkdir()
+          excluded = {'.git', '.github', 'docs', 'scripts', 'deployment', 'supabase', 'prototype', 'node_modules', 'design-review', 'visual-review', 'ux-review', 'spacing-review', 'navigation-ux-review', 'refresh-review', 'dist-staging'}
+          extensions = {'.html', '.css', '.js', '.svg', '.png', '.jpg', '.jpeg', '.webp', '.gif', '.ico', '.xml'}
+          provenance = {}
+          for name in ('candidate', 'current-main'):
+              folder = root / name
+              provenance[name] = subprocess.check_output(['git', '-C', str(folder), 'rev-parse', 'HEAD'], text=True).strip()
+              with zipfile.ZipFile(out / (name + '.zip'), 'w', zipfile.ZIP_DEFLATED) as archive:
+                  for file in folder.rglob('*'):
+                      rel = file.relative_to(folder)
+                      if not file.is_file() or any(p.startswith('.') or p in excluded for p in rel.parts[:-1]):
+                          continue
+                      if file.name.startswith('.') or file.suffix.lower() not in extensions:
+                          continue
+                      archive.write(file, rel.as_posix())
+          (out / 'provenance.json').write_text(json.dumps(provenance, indent=2))
+          print('Public source-only review export complete. Nothing deployed.')
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mmed-owner-review-public-sources
+          path: review-source-packets/
+          retention-days: 3
+          if-no-files-found: error
