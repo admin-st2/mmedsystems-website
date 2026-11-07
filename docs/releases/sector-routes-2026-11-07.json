@@ -1,0 +1,112 @@
+[
+  {
+    "title": "Primary Care and Independent Practices",
+    "path": "/private-clinics/",
+    "group": "Clinics and Medical Practices"
+  },
+  {
+    "title": "Urgent Care and Walk-In Clinics",
+    "path": "/urgent-care/",
+    "group": "Clinics and Medical Practices"
+  },
+  {
+    "title": "Specialty Medical Practices",
+    "path": "/specialty-practices/",
+    "group": "Clinics and Medical Practices"
+  },
+  {
+    "title": "Outpatient Surgery and Procedure Centers",
+    "path": "/outpatient-surgery/",
+    "group": "Clinics and Medical Practices"
+  },
+  {
+    "title": "Medical Centers and Multispecialty Facilities",
+    "path": "/medical-centers/",
+    "group": "Clinics and Medical Practices"
+  },
+  {
+    "title": "Hospitals and Acute Care Organizations",
+    "path": "/hospitals/",
+    "group": "Hospitals and Continuing Care"
+  },
+  {
+    "title": "Rehabilitation and Allied Health Services",
+    "path": "/rehabilitation/",
+    "group": "Hospitals and Continuing Care"
+  },
+  {
+    "title": "Nursing Homes and Long-Term Care Facilities",
+    "path": "/long-term-care/",
+    "group": "Hospitals and Continuing Care"
+  },
+  {
+    "title": "Therapy and Counseling Practices",
+    "path": "/therapy-counseling/",
+    "group": "Behavioral Health and Recovery Services"
+  },
+  {
+    "title": "Psychiatry and Medication-Management Practices",
+    "path": "/psychiatry/",
+    "group": "Behavioral Health and Recovery Services"
+  },
+  {
+    "title": "Community Behavioral Health Organizations",
+    "path": "/community-behavioral-health/",
+    "group": "Behavioral Health and Recovery Services"
+  },
+  {
+    "title": "Substance Use Treatment and Recovery Programs",
+    "path": "/substance-use-treatment/",
+    "group": "Behavioral Health and Recovery Services"
+  },
+  {
+    "title": "Community Health Centers",
+    "path": "/community-health/",
+    "group": "Community, Home, and Outreach Services"
+  },
+  {
+    "title": "Home Health and Visiting Nursing Services",
+    "path": "/home-health/",
+    "group": "Community, Home, and Outreach Services"
+  },
+  {
+    "title": "Public Health and Outreach Programs",
+    "path": "/public-health/",
+    "group": "Community, Home, and Outreach Services"
+  },
+  {
+    "title": "Community and Retail Pharmacies",
+    "path": "/community-pharmacies/",
+    "group": "Pharmacy and Diagnostic Services"
+  },
+  {
+    "title": "Hospital and Health-System Pharmacies",
+    "path": "/hospital-pharmacies/",
+    "group": "Pharmacy and Diagnostic Services"
+  },
+  {
+    "title": "Clinical Laboratories",
+    "path": "/clinical-laboratories/",
+    "group": "Pharmacy and Diagnostic Services"
+  },
+  {
+    "title": "Imaging and Diagnostic Centers",
+    "path": "/imaging-diagnostics/",
+    "group": "Pharmacy and Diagnostic Services"
+  },
+  {
+    "title": "Multi-Site Groups and Care Networks",
+    "path": "/care-networks/",
+    "group": "Healthcare Networks and Operations"
+  },
+  {
+    "title": "Billing and Revenue Cycle Teams",
+    "path": "/billing-revenue-cycle/",
+    "group": "Healthcare Networks and Operations"
+  },
+  {
+    "title": "Procurement, Inventory, and Supply Chain Teams",
+    "path": "/procurement-inventory/",
+    "group": "Healthcare Networks and Operations"
+  }
+]
