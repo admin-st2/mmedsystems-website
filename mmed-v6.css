@@ -520,6 +520,137 @@ a.primary-cta:hover .external-arrow,a.primary-cta:focus-visible .external-arrow{
 }
 
 
+/* MMeD spacing calibration: compact section rhythm, review-only 2026-11-06. */
+/* Existing brand palette, typography, layout grid, and menu order remain untouched. */
+.hero{padding-top:clamp(44px,4.5vw,62px);padding-bottom:clamp(60px,6vw,86px)}
+.hero-main{padding-top:clamp(40px,4.5vw,60px);padding-bottom:clamp(42px,5vw,66px)}
+.hero-lower{gap:clamp(35px,6vw,100px);padding-top:32px}
+.section-pad{padding-top:clamp(68px,6.5vw,96px);padding-bottom:clamp(73px,7vw,105px)}
+.platform-header{margin-bottom:clamp(35px,4vw,58px)}
+.capability{min-height:0;padding-block:30px}
+.adaptation-inner{padding-top:clamp(70px,6.5vw,98px);padding-bottom:clamp(76px,7vw,106px)}
+.adaptation-intro{margin-bottom:clamp(25px,3.5vw,44px)}
+.solution-cards{margin-top:30px}
+.vision-inner{padding-top:clamp(70px,6vw,90px);padding-bottom:clamp(74px,6.5vw,100px)}
+.audience{padding-top:clamp(72px,6.5vw,95px);padding-bottom:clamp(80px,7vw,105px)}
+.audience-header{margin-bottom:48px}
+.solution-hero{padding-top:clamp(48px,4.5vw,70px);padding-bottom:clamp(65px,6vw,87px)}
+.solution-statement{padding-block:clamp(40px,4vw,56px)}
+.solution-workflows{padding-top:clamp(60px,5.5vw,84px);padding-bottom:clamp(70px,6vw,92px)}
+.solution-workflows-head{gap:clamp(25px,4vw,50px);margin-bottom:clamp(27px,3.5vw,45px)}
+.solution-workflow{gap:clamp(25px,3.4vw,46px);padding-top:27px;padding-bottom:32px}
+.solution-connect{padding-block:clamp(50px,5.5vw,72px)}
+.content-deep-dive{padding-top:36px;padding-bottom:57px}
+.solution-workflows:has(+ .content-deep-dive){padding-bottom:28px}
+.solution-workflows:has(+ .solution-workflows){padding-bottom:22px}
+.solution-workflows + .solution-workflows{padding-top:30px}
+.demo-request{padding-top:48px;padding-bottom:70px}
+.demo-request-inner{padding-top:38px}
+.demo-request-privacy{margin-top:40px}
+.legacy-main{padding-top:64px;padding-bottom:76px;min-height:0}
+.interior-main{padding-top:40px}
+.inner-layout{padding-bottom:38px}
+.site-footer{padding-top:65px}
+.footer-grid{padding-bottom:56px}
+@media(max-width:900px){
+  .hero{padding-top:40px;padding-bottom:55px}
+  .hero-main{padding-top:40px;padding-bottom:46px}
+  .hero-lower{gap:24px;padding-top:26px}
+  .section-pad{padding-block:64px 70px}
+  .adaptation-inner{padding-block:60px 66px}
+  .vision-inner{padding-block:62px 70px}
+  .audience{padding-block:62px 70px}
+  .solution-hero{padding-block:48px 57px}
+  .solution-workflows{padding-block:60px 66px}
+  .solution-statement{padding-block:40px}
+  .solution-connect{padding-block:50px}
+  .content-deep-dive{padding-block:30px 40px}
+}
+@media(max-width:680px){
+  .hero{padding-top:32px;padding-bottom:52px}
+  .hero-main{padding-top:35px;padding-bottom:38px}
+  .hero-lower{gap:20px;padding-top:24px}
+  .section-pad{padding-block:45px 52px}
+  .platform-header{margin-bottom:30px}
+  .capability{padding-block:22px;gap:16px}
+  .adaptation-inner{padding-block:48px 58px}
+  .adaptation-intro{margin-bottom:25px}
+  .solution-cards{margin-top:20px}
+  .vision-inner{padding-block:52px 58px}
+  .audience{padding-block:52px 58px}
+  .audience-header{margin-bottom:28px}
+  .solution-hero{padding-block:40px 53px}
+  .solution-workflows{padding-block:48px 54px}
+  .solution-workflows-head{margin-bottom:25px}
+  .solution-workflow{gap:14px;padding-block:22px 26px}
+  .solution-connect{padding-block:42px}
+  .content-deep-dive{padding-block:24px 37px}
+  .solution-workflows:has(+ .content-deep-dive){padding-bottom:16px}
+  .solution-workflows:has(+ .solution-workflows){padding-bottom:16px}
+  .solution-workflows + .solution-workflows{padding-top:20px}
+  .demo-request{padding-block:38px 50px}
+  .demo-request-inner{padding-top:30px}
+  .demo-request-privacy{margin-top:28px}
+  .legacy-main{padding-block:42px 58px}
+  .site-footer{padding-top:48px}
+  .footer-grid{padding-bottom:42px}
+}
+
+/* Fix pre-existing narrow-phone overflow: the capability button was forced
+   into implicit grid column 2 on a one-column layout at 320px. */
+@media(max-width:760px){
+  .capability .go{grid-column:1;grid-row:3;justify-self:start;min-width:0;
+    max-width:100%;margin-top:0}
+}
+
+
+/* Button and navigation usability review — no brand/layout redesign. */
+#menu-toggle[aria-expanded="true"]{background:var(--blue);border-color:var(--blue);color:var(--white)}
+#menu-toggle[aria-expanded="true"] .menu-symbol i{background:var(--white)}
+#main-nav a[aria-current="page"]{color:var(--blue-deep);box-shadow:inset 0 -2px var(--blue)}
+#site-menu-panel nav a{min-height:44px;scroll-margin-block:100px}
+#site-menu-panel nav a:hover,#site-menu-panel nav a:focus-visible{color:var(--blue-deep);background:var(--pale)}
+#site-menu-panel nav a[aria-current="page"]{color:var(--blue-deep);background:var(--pale);font-weight:700;box-shadow:inset 3px 0 var(--blue);padding-left:12px}
+#site-menu-panel nav a[aria-current="page"]:focus-visible{outline:3px solid var(--blue)}
+#menu-toggle,.primary-cta,.solution-inline-cta,.solution-connect a,
+.menu-inline,.audience-card .go,.capability .go{transition:background-color .18s ease,color .18s ease,box-shadow .18s ease}
+.primary-cta,.solution-inline-cta,.solution-connect a,.menu-inline{border-radius:4px}
+.primary-cta:hover,.primary-cta:focus-visible,
+.solution-inline-cta:hover,.solution-inline-cta:focus-visible,
+.solution-connect a:hover,.solution-connect a:focus-visible{background:var(--blue-deep);color:var(--white);box-shadow:0 5px 16px rgba(11,31,58,.14)}
+#menu-toggle:focus-visible,#main-nav a:focus-visible,
+#site-menu-panel a:focus-visible,.primary-cta:focus-visible,
+.solution-inline-cta:focus-visible,.solution-connect a:focus-visible{
+  outline:3px solid var(--blue);outline-offset:3px
+}
+@media(max-width:680px){
+  #site-menu-panel nav a{min-height:48px}
+  .primary-cta,.solution-inline-cta,.solution-connect a{min-height:48px}
+}
+@media(prefers-reduced-motion:reduce){
+  #menu-toggle,.primary-cta,.solution-inline-cta,.solution-connect a,
+  .menu-inline,.audience-card .go,.capability .go{transition:none!important;transform:none!important}
+}
+
+/* Previously the desktop hamburger hid its Primary pages group, making
+   Where We Serve unreachable except through a deep link. Keep that group
+   available at all widths without changing navigation order or page layout. */
+#site-menu-panel .menu-primary{display:block!important;grid-column:1/-1}
+
+
+/* Keep the full page menu visible on phones; on wider screens reveal the
+   requested regional destination without repeating the entire top navigation. */
+@media(min-width:721px){
+ #site-menu-panel .menu-primary{grid-column:1/-1!important;padding:0 0 15px;margin:0 0 8px;
+   border-bottom:1px solid var(--line)}
+ #site-menu-panel .menu-primary-list{display:flex;gap:8px;flex-wrap:wrap}
+ #site-menu-panel .menu-primary-list>a:not([href="/where-we-serve/"]){display:none}
+ #site-menu-panel .menu-primary-list>a[href="/where-we-serve/"]{
+   display:inline-flex;align-items:center;gap:12px;min-height:44px;
+   padding:10px 15px;border:1px solid var(--line);background:var(--pale);
+   color:var(--navy);font-weight:700}
+}
+
 /* FAQ page: reuse the existing MMeD font, colors, and interior-page layout. */
 .faq-index{display:flex;flex-wrap:wrap;gap:12px;padding-top:29px;padding-bottom:29px;border-bottom:1px solid var(--line)}
 .faq-index a{display:inline-flex;align-items:center;gap:13px;min-height:44px;padding:12px 16px;font-size:16px;line-height:1.2;color:var(--navy);background:var(--pale);border:1px solid var(--line);transition:background-color .18s,color .18s}
@@ -558,3 +689,15 @@ a.primary-cta:hover .external-arrow,a.primary-cta:focus-visible .external-arrow{
  .faq-answer p{font-size:17px}
 }
 @media(prefers-reduced-motion:reduce){.faq-index a{transition:none}}
+
+/* Local owner-review additions only. Original palette and Times New Roman retained. */
+#site-menu-panel .menu-primary-list>a[href="/pricing/"]{display:inline-flex;align-items:center;gap:12px;min-height:44px;padding:10px 15px;border:1px solid var(--line);background:var(--pale);color:var(--navy);font-weight:700}
+.review-art{margin:26px 0 0;max-width:480px}
+.review-art img{display:block;width:100%;height:auto;aspect-ratio:1000/603;object-fit:cover;border:1px solid var(--line);border-radius:8px}
+.review-art figcaption{font-size:13px;line-height:1.5;color:var(--body);margin-top:8px}
+.review-pricing-intro{max-width:850px;font-size:20px;color:var(--body);line-height:1.6}
+.review-quote-note{max-width:900px;padding:18px 20px;background:var(--pale);border-left:3px solid var(--blue);font-size:18px;line-height:1.55;color:var(--body);margin:26px 0 0}
+.faq-section:last-of-type{padding-bottom:50px}
+.faq-section + .solution-connect{margin-top:48px}
+.faq-item{scroll-margin-top:110px}
+@media(max-width:680px){.review-art{margin-top:20px;max-width:100%}.review-pricing-intro,.review-quote-note{font-size:17px}}
