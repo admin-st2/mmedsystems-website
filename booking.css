@@ -1,0 +1,24 @@
+/* Approved MMeD booking integration */
+.booking-hero-actions{display:grid;grid-template-columns:1fr;gap:12px;width:100%;max-width:380px}
+.mmed-booking-button{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;min-height:68px;padding:17px 22px;border:1px solid #0b1f3a;background:#0b1f3a;color:#fff;font:700 19px/1.3 "Times New Roman",Times,serif;transition:box-shadow .2s ease,transform .2s ease,background .2s ease;text-decoration:none}
+.mmed-booking-button.secondary{background:#fff;color:#0b1f3a;border-color:#b6c6d5}
+.mmed-booking-button:hover,.mmed-booking-button:focus-visible{background:#183955;color:#fff;box-shadow:0 9px 22px rgba(11,31,58,.20);transform:translateY(-2px)}
+.mmed-booking-button.secondary:hover,.mmed-booking-button.secondary:focus-visible{background:#f6f9fc;color:#0b1f3a;box-shadow:0 9px 22px rgba(11,31,58,.14)}
+.booking-handoff-note{font-size:15px;line-height:1.5;color:#4f647b;margin:15px 0 0}
+.mmed-booking{background:#f6f9fc;border-block:1px solid #d9e3eb;padding:67px 0 60px;color:#0b1f3a}
+.mmed-booking .booking-head{display:grid;grid-template-columns:1.4fr 1fr;gap:50px;align-items:end;margin-bottom:35px}
+.mmed-booking h2{font-size:clamp(39px,4.5vw,62px);letter-spacing:-.045em;line-height:1.04;font-weight:400;margin:14px 0 0}
+.mmed-booking h2 em{color:#1267b2;font-weight:400}
+.mmed-booking .booking-head>p{font-size:19px;line-height:1.5;color:#4f647b;margin:0}
+.mmed-booking .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.mmed-booking .card{background:#fff;border:1px solid #d9e3eb;padding:28px 26px;display:flex;flex-direction:column;min-height:300px}
+.mmed-booking .duration{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#1267b2}
+.mmed-booking .card h3{font-size:30px;font-weight:400;letter-spacing:-.035em;line-height:1.1;margin:23px 0 15px}
+.mmed-booking .card p{font-size:17px;line-height:1.5;color:#4f647b;margin:0 0 27px}
+.mmed-booking .card>a{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-top:auto;padding:15px 0 0;border-top:1px solid #d9e3eb;text-align:left;font-size:17px;line-height:1.35;color:#1267b2;min-height:48px;transition:box-shadow .2s ease,background .2s ease}
+.mmed-booking .card>a:hover,.mmed-booking .card>a:focus-visible{background:#f6f9fc;box-shadow:0 6px 15px rgba(11,31,58,.12)}
+.mmed-booking .details{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px 30px;padding-top:25px;color:#4f647b;font-size:15px;line-height:1.5}
+.mmed-booking .details p{margin:0}.mmed-booking .privacy{max-width:370px}
+@media(max-width:850px){.mmed-booking .cards{grid-template-columns:1fr}.mmed-booking .card{min-height:0}.mmed-booking .booking-head{grid-template-columns:1fr;gap:25px}.mmed-booking .details{flex-direction:column;gap:12px}.mmed-booking .privacy{max-width:none}.mmed-booking{padding:48px 0}}
+@media(max-width:560px){.mmed-booking .card{padding:25px}.mmed-booking h2{font-size:43px}.mmed-booking .booking-head>p{font-size:17px}.mmed-booking-button{font-size:17px}}
+@media(prefers-reduced-motion:reduce){.mmed-booking-button{transition:none}.mmed-booking-button:hover,.mmed-booking-button:focus-visible{transform:none}}

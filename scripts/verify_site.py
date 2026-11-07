@@ -183,8 +183,11 @@ def main() -> int:
 
     # Conversion and privacy contract for the public corporate website.
     homepage = (ROOT / "index.html").read_text(encoding="utf-8")
-    check(homepage.count('<a class="primary-cta" href="/request-demo/"') == 1,
-          "Homepage must have exactly one primary CTA linking to the public request page")
+    check('Schedule a Private Demo' in homepage and 'Book a Consultation' in homepage and 'href="/book/"' in homepage,
+          "Homepage must provide approved booking options and a clean booking URL")
+    booking = (ROOT / 'book/index.html').read_text(encoding='utf-8')
+    check(booking.count('https://calendar.google.com/calendar/u/0/appointments/schedules/') == 3, 'Booking page must link to exactly three public schedules')
+    check('AcZssZ2x9OS_WULEOXlAJoFTgeiTIVtjIGxEadlsbmwnvSCq52fVhKcHnIWJ_vCaVCNLwcys5Q1TJ4ni' not in homepage + booking, 'Private tester booking link must not be published')
     request_page = (ROOT / "request-demo" / "index.html").read_text(encoding="utf-8")
     check("partnerships@mmedsystems.com" in request_page,
           "Demo request must provide a working company inquiry address")
@@ -227,3 +230,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+
