@@ -50,6 +50,10 @@ def main():
             for width in WIDTHS:
                 page.set_viewport_size({'width': width, 'height': 900})
                 page.goto(base + '/', wait_until='networkidle')
+                assert page.locator('.scroll-indicator').count() == 0
+                page.keyboard.press('End')
+                assert page.locator('.site-header').bounding_box()['y'] == 0, width
+                page.keyboard.press('Home')
                 toggle = page.locator('#menu-toggle')
                 panel = page.locator('#site-menu-panel')
                 toggle.focus()
@@ -103,6 +107,7 @@ def main():
             # Every canonical page has the same one-copy meeting destination.
             for path in routes:
                 page.goto(base + path, wait_until='domcontentloaded')
+                assert page.locator('.scroll-indicator').count() == 0, path
                 assert page.locator('.menu-primary-list a[href="/book/"]').count() == 1, path
                 for a in page.locator('a.solution-back').all():
                     if 'Back to solutions' in a.inner_text():
