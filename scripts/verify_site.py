@@ -158,6 +158,29 @@ def main() -> int:
     check('id="reach-teaser-title"' in homepage_html,
           "Homepage is missing prominent Where We Serve region section")
     
+    # Dedicated answers page must remain discoverable, indexable, and consistent.
+    faq_url = BASE + "faq/"
+    check(faq_url in urls, "FAQ page missing from sitemap.xml")
+    faq_file = ROOT / "faq" / "index.html"
+    if faq_file.is_file():
+        faq_html = faq_file.read_text(encoding="utf-8")
+        check(faq_html.count('<details class="faq-item">') == 16,
+              "FAQ page must contain 16 accessible answer accordions")
+        check(faq_html.count("<summary>") == 16,
+              "FAQ questions must use native summary controls")
+        check("Real patient records" not in faq_html or "fictional" in faq_html.lower(),
+              "FAQ must explain fictional-only demo records")
+        check('rel="canonical" href="https://mmedsystems.com/faq/"' in faq_html,
+              "FAQ canonical URL missing")
+        check("FAQPage" not in faq_html,
+              "Do not add FAQ-rich-result claims without valid structured-data review")
+    for public_page in page_paths:
+        page_html = public_page.read_text(encoding="utf-8")
+        check('<a href="/faq/">FAQs</a>' in page_html,
+              f"{public_page.relative_to(ROOT)}: FAQ link absent from footer")
+    check('<a href="/faq/">FAQs</a>' in (ROOT / "404.html").read_text(encoding="utf-8"),
+          "404 footer must also link to FAQs")
+
     # Conversion and privacy contract for the public corporate website.
     homepage = (ROOT / "index.html").read_text(encoding="utf-8")
     check(homepage.count('<a class="primary-cta" href="/request-demo/"') == 1,
