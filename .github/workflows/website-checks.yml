@@ -11,6 +11,9 @@ on:
       - '.github/workflows/website-checks.yml'
       - 'scripts/check_live_site.py'
       - 'scripts/browser_smoke.py'
+      - 'scripts/navigation_booking_browser.py'
+      - 'mmed-v6.css'
+      - 'mmed-v6.js'
   push:
     branches: [main]
   workflow_dispatch:
@@ -44,3 +47,13 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: Check public desktop and mobile navigation
         run: python scripts/browser_smoke.py
+      - name: Upload browser review screenshots and results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mmed-navigation-review-${{ github.run_id }}
+          path: |
+            navigation-review/
+            sector-release-qa/results.json
+          retention-days: 14
+          if-no-files-found: warn
