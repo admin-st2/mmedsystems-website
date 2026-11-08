@@ -13,7 +13,7 @@ from playwright.sync_api import sync_playwright, expect
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'navigation-review'
 WIDTHS = (320, 390, 720, 721, 768, 785, 1024, 1120, 1121, 1440)
-PRIMARY = ('/platform/', '/solutions/', '/integrations/', '/where-we-serve/', '/pricing/', '/contact/', '/book/')
+PRIMARY = ('/platform/', '/solutions/', '/integrations/', '/where-we-serve/', '/contact/', '/book/')
 CONTEXTUAL = ('platform', 'solutions', 'pricing', 'clinical-care', 'communication',
               'pharmacy-laboratory', 'business-operations', 'integrations',
               'care-teams', 'healthcare-operators')
