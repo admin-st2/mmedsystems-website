@@ -1,0 +1,24 @@
+/* Homepage approach: same palette and type, useful native links. */
+.approach-strip .philosophy-inner{grid-template-columns:.65fr repeat(3,minmax(0,1fr));gap:24px;min-height:102px;padding-block:12px;align-items:center}
+.approach-strip .kicker{margin:0;font-size:11px}
+.approach-strip .approach-link{display:flex;flex-direction:column;gap:4px;min-width:0;min-height:72px;padding:7px 12px;border-left:1px solid var(--line);color:var(--navy);text-decoration:none;scroll-margin-top:130px}
+.approach-title{font-size:20px;line-height:1.25}
+.approach-description{font-size:15px;line-height:1.4;color:var(--body);overflow-wrap:break-word}
+.approach-destination{display:inline-flex;align-items:center;gap:8px;font-size:14px;line-height:1.25;color:var(--blue-deep);text-decoration:underline;text-underline-offset:3px}
+.approach-strip .approach-link:hover{background:var(--white);border-left-color:var(--blue)}
+.approach-strip .approach-link:hover .approach-title{color:var(--blue-deep)}
+.approach-strip .approach-link:focus-visible{background:var(--white);outline:3px solid var(--blue);outline-offset:3px}
+@media(max-width:1100px){
+ .approach-strip .philosophy-inner{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 18px;padding-block:16px}
+ .approach-strip .kicker{grid-column:1/-1}
+ .approach-strip .approach-link{padding:5px 10px}
+ .approach-title{font-size:19px}
+}
+@media(max-width:680px){
+ .approach-strip .philosophy-inner{grid-template-columns:minmax(0,1fr);gap:0;padding-block:16px}
+ .approach-strip .kicker{margin-bottom:6px}
+ .approach-strip .approach-link{padding:11px 0;border-left:0;min-height:78px}
+ .approach-strip .approach-link+.approach-link{border-top:1px solid var(--line)}
+ .approach-title{font-size:19px}
+ .approach-description{font-size:15px}
+}

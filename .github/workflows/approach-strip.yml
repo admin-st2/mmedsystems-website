@@ -1,0 +1,60 @@
+name: MMeD homepage approach links
+on:
+  pull_request:
+    branches: [main]
+    paths: ['scripts/approach_strip.py', '.github/workflows/approach-strip.yml', 'index.html', 'homepage-approach.css']
+  push:
+    branches: [main]
+    paths: ['scripts/approach_strip.py', '.github/workflows/approach-strip.yml', 'index.html', 'homepage-approach.css']
+permissions:
+  contents: read
+jobs:
+  approach-source:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify the scoped strip and website integrity
+        run: |
+          python scripts/approach_strip.py
+          python scripts/verify_sector_release.py
+      - name: Install browser engines
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install --with-deps chromium firefox webkit
+      - name: Check links, keyboard focus, no-JS navigation and responsive layout
+        env:
+          MMED_TEST_BROWSERS: chromium,firefox,webkit
+        run: python scripts/approach_strip.py --browser
+      - name: Preserve screenshots and test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mmed-approach-links-${{ github.run_id }}
+          path: approach-strip-qa/
+          if-no-files-found: warn
+          retention-days: 14
+  approach-published:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify public homepage, exact stylesheet and all three destinations
+        run: python3 scripts/approach_strip.py --live
+      - name: Save deployment verification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mmed-approach-live-${{ github.run_id }}
+          path: approach-strip-qa/
+          if-no-files-found: warn
+          retention-days: 30
