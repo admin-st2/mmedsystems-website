@@ -3,35 +3,36 @@ on:
   pull_request:
     branches: [main]
     paths: ['scripts/approach_strip.py', '.github/workflows/approach-strip.yml', 'index.html', 'homepage-approach.css']
+  push:
+    branches: [main]
+    paths: ['scripts/approach_strip.py', '.github/workflows/approach-strip.yml', 'index.html', 'homepage-approach.css']
 permissions:
-  contents: write
+  contents: read
 jobs:
-  prepare:
-    if: github.head_ref == 'ux/homepage-approach-links-2026-11-07' && github.event.pull_request.head.repo.full_name == github.repository
+  approach-source:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Apply the requested homepage-only change
+      - name: Verify the scoped strip and website integrity
         run: |
-          test "$(git rev-parse origin/main)" = b70611fc794eb94610004b3514197ef94691be06
-          python scripts/approach_strip.py --apply
+          python scripts/approach_strip.py
           python scripts/verify_sector_release.py
       - name: Install browser engines
         run: |
           python -m pip install playwright==1.57.0
           python -m playwright install --with-deps chromium firefox webkit
-      - name: Check the strip at desktop, tablet and phone sizes
+      - name: Check links, keyboard focus, no-JS navigation and responsive layout
         env:
           MMED_TEST_BROWSERS: chromium,firefox,webkit
         run: python scripts/approach_strip.py --browser
-      - name: Preserve visual and test evidence
+      - name: Preserve screenshots and test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -39,13 +40,21 @@ jobs:
           path: approach-strip-qa/
           if-no-files-found: warn
           retention-days: 14
-      - name: Commit only tested homepage HTML and CSS to the review branch
-        run: |
-          test "$GITHUB_HEAD_REF" = ux/homepage-approach-links-2026-11-07
-          git fetch origin main
-          test "$(git rev-parse origin/main)" = b70611fc794eb94610004b3514197ef94691be06
-          git config user.name 'MMeD Website Release'
-          git config user.email '163439386+admin-st2@users.noreply.github.com'
-          git add index.html homepage-approach.css
-          git commit -m 'Make the homepage approach statements useful links with brief explanations'
-          git push origin HEAD:refs/heads/ux/homepage-approach-links-2026-11-07
+  approach-published:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify public homepage, exact stylesheet and all three destinations
+        run: python3 scripts/approach_strip.py --live
+      - name: Save deployment verification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mmed-approach-live-${{ github.run_id }}
+          path: approach-strip-qa/
+          if-no-files-found: warn
+          retention-days: 30
