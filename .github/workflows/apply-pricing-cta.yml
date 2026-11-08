@@ -20,9 +20,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Apply only the requested navigation and homepage changes
+      - name: Reconcile the latest approved navigation then apply the pricing update
         run: |
-          test "$(git rev-parse origin/main)" = 167b932f562c8cd66c08a3814d72f5dbc0d675bb
+          test "$(git rev-parse origin/main)" = 0a902bea1bac3c74cb0b578e00dc77d522dcb9f4
+          git config user.name 'MMeD Website Release'
+          git config user.email '163439386+admin-st2@users.noreply.github.com'
+          git merge --no-edit origin/main
           python scripts/pricing_cta_update.py --apply
           python scripts/verify_sector_release.py
       - name: Install browser for interaction tests
@@ -43,9 +46,7 @@ jobs:
         run: |
           test "$GITHUB_HEAD_REF" = fix/pricing-homepage-cta-2026-11-07
           git fetch origin main
-          test "$(git rev-parse origin/main)" = 167b932f562c8cd66c08a3814d72f5dbc0d675bb
-          git config user.name 'MMeD Website Release'
-          git config user.email '163439386+admin-st2@users.noreply.github.com'
+          test "$(git rev-parse origin/main)" = 0a902bea1bac3c74cb0b578e00dc77d522dcb9f4
           git add -u -- '*.html'
           git add homepage-pricing.css
           git commit -m 'Replace header Pricing links with a responsive homepage pricing CTA'
