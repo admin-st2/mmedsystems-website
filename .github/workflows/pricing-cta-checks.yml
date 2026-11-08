@@ -1,0 +1,59 @@
+name: MMeD homepage Pricing CTA verification
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '**/*.html'
+      - 'homepage-pricing.css'
+      - 'scripts/pricing_cta_update.py'
+      - '.github/workflows/pricing-cta-checks.yml'
+  push:
+    branches: [main]
+    paths:
+      - '**/*.html'
+      - 'homepage-pricing.css'
+      - 'scripts/pricing_cta_update.py'
+      - '.github/workflows/pricing-cta-checks.yml'
+permissions:
+  contents: read
+jobs:
+  pricing-preview:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/pricing_cta_update.py
+      - run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install chromium
+          python scripts/pricing_cta_update.py --browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pricing-cta-preview-${{ github.run_id }}
+          path: pricing-cta-qa/
+          retention-days: 14
+          if-no-files-found: warn
+  pricing-published:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify public homepage CTA, stylesheet and all 47 headers
+        run: python3 scripts/pricing_cta_update.py --live
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pricing-cta-live-${{ github.run_id }}
+          path: pricing-cta-qa/
+          retention-days: 30
+          if-no-files-found: warn
