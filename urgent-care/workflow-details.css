@@ -1,0 +1,30 @@
+/* Urgent Care only: preserve the existing palette, font and numbered workflow. */
+.sector-journey .workflow-help{font-size:16px;line-height:1.5;color:var(--body);margin:0 0 18px}
+.sector-flow.workflow-disclosures{align-items:start}
+.sector-flow.workflow-disclosures>li{display:block;padding:0;min-height:0;gap:0}
+.sector-flow.workflow-disclosures>li:after{top:16px;right:16px;pointer-events:none}
+.workflow-step{margin:0;border:0}
+.workflow-step>summary{display:flex;flex-direction:column;gap:8px;min-height:128px;padding:16px 17px;list-style:none;cursor:pointer;color:var(--navy);font:inherit}
+.workflow-step>summary::-webkit-details-marker{display:none}
+.workflow-step>summary::marker{content:""}
+.workflow-step>summary svg{display:block;margin-right:28px}
+.workflow-step-title{display:block;line-height:1.4;flex:1;padding-right:0}
+.workflow-step-action{display:flex;justify-content:space-between;gap:12px;color:var(--blue-deep);font-size:15px;line-height:1.4}
+.workflow-step-action .step-closed,.workflow-step-action .step-open{text-decoration:underline;text-underline-offset:3px}
+.workflow-step .step-open{display:none}
+.workflow-step[open] .step-closed{display:none}
+.workflow-step[open] .step-open{display:inline}
+.workflow-step>summary:hover{background:var(--pale)}
+.workflow-step>summary:focus,.workflow-step>summary:focus-visible{outline:3px solid var(--blue-deep);outline-offset:3px;position:relative;z-index:1}
+.workflow-step[open]>summary{background:var(--pale)}
+.workflow-step-body{padding:16px 17px 20px;border-top:1px solid var(--line)}
+.workflow-step-body p{font-size:16px;line-height:1.6;margin:0;color:var(--body);overflow-wrap:break-word}
+@media(max-width:680px){
+ .sector-flow.workflow-disclosures{grid-template-columns:1fr;gap:10px}
+ .workflow-step>summary{min-height:84px;padding:14px 15px;display:grid;grid-template-columns:24px minmax(0,1fr);column-gap:10px;align-items:start}
+ .workflow-step>summary svg{grid-column:1;grid-row:1;margin:0}
+ .workflow-step-title{grid-column:2;grid-row:1;padding-right:26px;font-size:17px}
+ .workflow-step-action{grid-column:2;grid-row:2;align-self:end}
+ .sector-flow.workflow-disclosures>li:after{top:14px;right:14px}
+ .workflow-step-body{padding:14px 15px 18px}
+}
