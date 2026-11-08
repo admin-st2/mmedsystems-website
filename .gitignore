@@ -34,3 +34,8 @@ node_modules/
 __pycache__/
 coverage/
 dist/
+
+# Generated local/CI review output
+navigation-review/
+sector-release-qa/
+faq-review/
