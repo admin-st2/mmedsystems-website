@@ -1,12 +1,15 @@
 # Security and privacy changes for owner review
 
 Prepared 8 November 2026 against main `b70611fc794eb94610004b3514197ef94691be06`.
-These changes do not activate branch protection, publish the website, configure a
-CDN, change DNS, or enforce production browser headers.
+Reconciled with main `5a76d7c45042a2a70257618cbbf46ef2b13e0bc4` before approved publication,
+preserving the homepage approach links and Urgent Care workflow disclosures. The two
+new workflows receive the same reviewed action pins, for 27 references total.
+Branch protection, CDN/DNS configuration and production browser headers remain separate
+approval decisions; merging the code publishes the revised privacy notice.
 
 ## Code changes
 
-- Pin all 17 GitHub Actions references to exact official same-major release commits.
+- Pin all 27 GitHub Actions references to exact official same-major release commits.
   Disable persisted checkout credentials in the three steps that previously lacked it.
 - Run the existing corporate `static-site` and `browser-smoke` jobs on every PR to
   `main`, including workflow-only and documentation-only changes. Keep the other
@@ -130,7 +133,7 @@ it does not establish production enforcement or replace deployment testing.
 
 ### Results in the preparation environment
 
-- PASS: 47-page/22-sector release source validation, all 17 action references and
+- PASS: 47-page/22-sector release source validation, all 27 action references and
   checkout credential settings, privacy/source checks, pricing/header regression
   source check, Python compilation, workflow YAML parsing, and whitespace checks.
 - PASS: independent source review after addressing redirect and framing test weaknesses.
