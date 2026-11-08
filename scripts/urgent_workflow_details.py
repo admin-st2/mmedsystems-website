@@ -48,7 +48,7 @@ CSS = '''/* Urgent Care only: preserve the existing palette, font and numbered w
 .workflow-step[open] .step-closed{display:none}
 .workflow-step[open] .step-open{display:inline}
 .workflow-step>summary:hover{background:var(--pale)}
-.workflow-step>summary:focus-visible{outline:3px solid var(--blue-deep);outline-offset:3px;position:relative;z-index:1}
+.workflow-step>summary:focus,.workflow-step>summary:focus-visible{outline:3px solid var(--blue-deep);outline-offset:3px;position:relative;z-index:1}
 .workflow-step[open]>summary{background:var(--pale)}
 .workflow-step-body{padding:16px 17px 20px;border-top:1px solid var(--line)}
 .workflow-step-body p{font-size:16px;line-height:1.6;margin:0;color:var(--body);overflow-wrap:break-word}
@@ -129,6 +129,7 @@ def browser_check() -> None:
                 browser=getattr(pw,engine).launch(headless=True)
                 widths=(1440,768,390,320) if engine=='chromium' else (1440,390)
                 for width in widths:
+                    print('Checking',engine,width,flush=True)
                     ctx=browser.new_context(viewport={'width':width,'height':900},reduced_motion='reduce')
                     def guard(route):
                         if route.request.url.startswith(base+'/'):route.continue_()
@@ -150,7 +151,7 @@ def browser_check() -> None:
                         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+3')
                         summary.focus();page.keyboard.press('Enter');assert item.get_attribute('open') is None
                         page.keyboard.press('Space');expect(item).to_have_attribute('open','')
-                        assert summary.evaluate('(e)=>getComputedStyle(e).outlineStyle')!='none'
+                        assert summary.evaluate('(e)=>getComputedStyle(e).outlineStyle')!='none',(engine,width,title,'focus outline')
                         page.keyboard.press('Space');assert item.get_attribute('open') is None
                     page.locator('#menu-toggle').click();expect(page.locator('#site-menu-panel')).to_be_visible()
                     page.keyboard.press('Escape');expect(page.locator('#menu-toggle')).to_be_focused()
