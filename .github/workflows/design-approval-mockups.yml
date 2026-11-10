@@ -1,0 +1,45 @@
+name: MMeD website refresh — before/after design approval
+on:
+  pull_request:
+    branches: [staging]
+    paths:
+      - 'design-review/**'
+      - '.github/workflows/design-approval-mockups.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  review-images:
+    if: github.event_name == 'pull_request' && github.base_ref == 'staging'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned offline browser
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install chromium
+      - name: Generate before-and-after mockups from source only
+        run: python design-review/build_refresh_mockups.py
+      - name: Confirm no real pricing page was added to the build source
+        run: |
+          test -f refresh-review/index.html
+          test ! -d pricing
+          test -f design-review/pricing-proposal.html
+          test "$(find refresh-review -name '*.png' | wc -l)" -eq 18
+      - name: Attach owner-review gallery and images
+        uses: actions/upload-artifact@v4
+        with:
+          name: mmed-refresh-before-after-pr-${{ github.event.pull_request.number }}
+          path: refresh-review/
+          retention-days: 14
+          if-no-files-found: error
+      - name: Preview instructions
+        run: |
+          echo '## MMeD — Approve mockups before building' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Download the `mmed-refresh-before-after-pr-${{ github.event.pull_request.number }}` artifact, extract it, and open `index.html`.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'You will see before/after desktop/mobile views for Home, Services, About, Contact, plus desktop/mobile mockups of the new Pricing page.' >> "$GITHUB_STEP_SUMMARY"
+          echo '**No website files, paid accounts, live domain, emails or clinical demo were changed.**' >> "$GITHUB_STEP_SUMMARY"
