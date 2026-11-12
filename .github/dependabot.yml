@@ -1,0 +1,13 @@
+# MMeD public marketing website only. This does not include the clinical demo,
+# MyCarePage, or protected healthcare application infrastructure.
+# Updates are proposed for review; never merge or deploy automatically.
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "ci"
